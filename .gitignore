@@ -15,6 +15,7 @@ venv/
 data/cv/
 data/cover_letters/
 *.md
+credentials.json
 
 # OS
 .DS_Store
