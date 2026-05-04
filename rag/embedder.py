@@ -35,18 +35,17 @@ def _embed(texts: list[str]) -> list[list[float]]:
     return model.encode(texts).tolist()
 
 
-def ingest_document(file_path: str, collection_name: str) -> int:
+def ingest_document(file_path: str, collection_name: str, chunk_size: int = 500, overlap: int = 50) -> int:
     """
     Read a file, chunk it, embed it, and store in ChromaDB.
     Returns number of chunks stored.
-    collection_name: 'cv' or 'cover_letters'
     """
     path = Path(file_path)
     if not path.exists():
         raise FileNotFoundError(f"Document not found: {file_path}")
 
     text = path.read_text(encoding="utf-8")
-    chunks = _chunk_text(text)
+    chunks = _chunk_text(text, chunk_size=chunk_size, overlap=overlap)  # ← pass them through
     embeddings = _embed(chunks)
 
     collection = _get_or_create_collection(collection_name)
@@ -62,19 +61,15 @@ def ingest_document(file_path: str, collection_name: str) -> int:
 
 
 def ingest_all():
-    """
-    Ingest everything in data/cv/ and data/cover_letters/.
-    Run this once when you add new documents.
-    """
     cv_dir = Path("data/cv")
     letters_dir = Path("data/cover_letters")
 
     for file in cv_dir.glob("*.txt"):
-        count = ingest_document(str(file), "cv")
+        count = ingest_document(str(file), "cv_docs", chunk_size=150, overlap=20)
         print(f"Ingested {file.name} — {count} chunks")
 
     for file in letters_dir.glob("*.txt"):
-        count = ingest_document(str(file), "cover_letters")
+        count = ingest_document(str(file), "cover_letters", chunk_size=150, overlap=20)
         print(f"Ingested {file.name} — {count} chunks")
 
 
