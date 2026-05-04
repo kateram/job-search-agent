@@ -34,15 +34,19 @@ async def _fetch_posting(url: str) -> str:
         return await scrape_job_posting(url)
     except RuntimeError:
         return await fetch_job_posting_text(url)
+    
+def _clean_json(raw: str) -> str:         
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[-1]
+        raw = raw.rsplit("```", 1)[0]
+    return raw.strip()
 
 
 async def _extract_structure(raw_text: str) -> JobAnalysis:
-    """
-    Send raw posting text to Claude and extract structured JobAnalysis.
-    """
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=1000,
+        max_tokens=2000,
         system=SYSTEM_PROMPT,
         messages=[
             {
@@ -51,14 +55,13 @@ async def _extract_structure(raw_text: str) -> JobAnalysis:
 
 {{
     "company_name": "string",
-    "role_title": "string", 
+    "role_title": "string",
     "location": "string",
     "required_skills": ["list of strings"],
     "nice_to_have_skills": ["list of strings"],
     "responsibilities": ["list of strings, max 5"],
     "culture_signals": ["list of strings"],
     "red_flags": ["list of strings"],
-    "raw_text": "the full posting text"
 }}
 
 Job posting:
@@ -67,7 +70,7 @@ Job posting:
         ]
     )
 
-    raw_json = response.content[0].text
+    raw_json = _clean_json(response.content[0].text)
 
     try:
         data = json.loads(raw_json)
