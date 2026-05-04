@@ -13,3 +13,4 @@ pytest
 pytest-asyncio
 gspread
 google-auth
+sentence-transformers
