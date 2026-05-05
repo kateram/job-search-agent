@@ -19,3 +19,6 @@ credentials.json
 
 # OS
 .DS_Store
+
+# Testing
+test_agent_1.py
