@@ -5,18 +5,27 @@ from rag.retriever import retrieve
 
 
 def test_chunk_text_basic():
-    text = " ".join(["word"] * 1100)
-    chunks = _chunk_text(text, chunk_size=500, overlap=50)
-    assert len(chunks) > 1
-    assert all(isinstance(c, str) for c in chunks)
+    # New chunker splits on uppercase header lines
+    text = "SECTION ONE\nbullet one\nbullet two\n\nSECTION TWO\nbullet three\nbullet four"
+    chunks = _chunk_text(text)
+    assert len(chunks) == 2
+    assert "SECTION ONE" in chunks[0]
+    assert "SECTION TWO" in chunks[1]
 
 
-def test_chunk_text_overlap():
-    text = " ".join([str(i) for i in range(600)])
-    chunks = _chunk_text(text, chunk_size=500, overlap=50)
-    last_words_chunk1 = chunks[0].split()[-50:]
-    first_words_chunk2 = chunks[1].split()[:50]
-    assert last_words_chunk1 == first_words_chunk2
+def test_chunk_text_single_section():
+    # Text with no headers should return as one chunk
+    text = "just some regular text\nwith no headers\nall lowercase"
+    chunks = _chunk_text(text)
+    assert len(chunks) == 1
+    assert isinstance(chunks[0], str)
+
+
+def test_chunk_text_ignores_short_uppercase_lines():
+    # Lines with 2 or fewer chars shouldn't be treated as headers
+    text = "REAL HEADER\nbullet one\n\nA\nbullet two"
+    chunks = _chunk_text(text)
+    assert "REAL HEADER" in chunks[0]
 
 
 def test_ingest_document_file_not_found():
