@@ -13,13 +13,18 @@ Always respond with valid JSON matching the requested schema exactly.
 Do not include any text outside the JSON object."""
 
 
-async def run_job_analyst(url: str) -> JobAnalysis:
+async def run_job_analyst(url: str = None, raw_text: str = None) -> JobAnalysis:
     """
-    Scrape a job posting URL and extract structured data.
-    Returns a JobAnalysis model.
+    Analyse a job posting from either a URL or raw pasted text.
     """
-    raw_text = await _fetch_posting(url)
-    return await _extract_structure(raw_text)
+    if not url and not raw_text:
+        raise ValueError("Must provide either a URL or raw text")
+
+    if raw_text:
+        return await _extract_structure(raw_text)
+
+    text = await _fetch_posting(url)
+    return await _extract_structure(text)
 
 
 async def _fetch_posting(url: str) -> str:

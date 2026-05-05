@@ -44,3 +44,27 @@ async def test_extract_structure_returns_job_analysis():
         assert isinstance(result, JobAnalysis)
         assert result.company_name == "Acme Corp"
         assert "Python" in result.required_skills
+
+@pytest.mark.asyncio
+async def test_run_job_analyst_with_raw_text():
+    mock_response = MagicMock()
+    mock_response.content = [MagicMock(text='''{
+        "company_name": "Acme Corp",
+        "role_title": "AI Engineer",
+        "location": "Toronto, ON",
+        "required_skills": ["Python"],
+        "nice_to_have_skills": [],
+        "responsibilities": ["Build agents"],
+        "culture_signals": [],
+        "red_flags": []
+    }''')]
+
+    with patch("agents.job_analyst.client.messages.create", return_value=mock_response):
+        result = await run_job_analyst(raw_text="some raw job posting text")
+        assert result.company_name == "Acme Corp"
+
+
+@pytest.mark.asyncio
+async def test_run_job_analyst_raises_with_no_input():
+    with pytest.raises(ValueError, match="Must provide either a URL or raw text"):
+        await run_job_analyst() 
