@@ -12,22 +12,30 @@ def _get_or_create_collection(name: str):
     return chroma.get_or_create_collection(name=name)
 
 
-def _chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> list[str]:
+def _chunk_text(text: str, chunk_size: int = 150, overlap: int = 20) -> list[str]:
     """
-    Split text into overlapping chunks.
-    Overlap ensures context isn't lost at chunk boundaries.
+    Split CV text on section headers (all-caps lines).
     """
-    words = text.split()
+    lines = text.split('\n')
     chunks = []
-    start = 0
+    current_chunk = []
 
-    while start < len(words):
-        end = start + chunk_size
-        chunk = " ".join(words[start:end])
-        chunks.append(chunk)
-        start += chunk_size - overlap
+    for line in lines:
+        stripped = line.strip()
+        # Detect header: line is non-empty and fully uppercase (ignoring punctuation/spaces)
+        is_header = stripped and stripped == stripped.upper() and len(stripped) > 2
 
-    return chunks
+        if is_header and current_chunk:
+            # Save current chunk and start new one
+            chunks.append('\n'.join(current_chunk))
+            current_chunk = [stripped]
+        else:
+            current_chunk.append(line)
+
+    if current_chunk:
+        chunks.append('\n'.join(current_chunk))
+
+    return [c.strip() for c in chunks if c.strip()]
 
 
 def _embed(texts: list[str]) -> list[list[float]]:
