@@ -81,7 +81,7 @@ Cover these points if the information is available:
   be specific about what people say, positive or negative
 - Anything a candidate should know before applying or interviewing
 
-Keep it under 250 words. Be factual and direct. 
+Keep it under 250 words in plain prose no markdown. Be factual and direct.  
 If Reddit or Glassdoor results are present, give them their own sentence or two"""
             }
         ]
