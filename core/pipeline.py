@@ -35,14 +35,14 @@ async def run_pipeline(
 
     # Write to Google Sheets
     await write_application({
-        "Company": package.job.company_name,
-        "Role": package.job.role_title,
-        "Fit Score": package.fit_score,
-        "Cover Letter": package.cover_letter,
-        "CV Notes": package.cv_notes,
-        "Company Brief": package.company_brief,
-        "Status": package.status,
-        "Created At": package.created_at.isoformat(),
-    })
-
+    "Company": package.job.company_name,
+    "Role": package.job.role_title,
+    "Fit Score": package.fit_score,
+    "Cover Letter": package.cover_letter,
+    "CV Notes": package.cv_notes,
+    "Company Brief": package.company_brief,
+    "Quality Flags": package.quality_flags,
+    "Status": package.status,
+    "Created At": package.created_at.isoformat(),
+})
     return package

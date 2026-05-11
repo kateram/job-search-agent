@@ -24,24 +24,34 @@ def _get_worksheet():
 async def write_application(package_data: dict) -> str:
     """
     Append an application package as a new row in Google Sheets.
-    Returns the row number written to.
+    Note: gspread is synchronous and blocks the event loop during I/O.
+    For a personal single-user tool this is acceptable. In production,
+    wrap with asyncio.to_thread() or switch to gspread-asyncio.
     """
     worksheet = _get_worksheet()
 
+    cv_notes = package_data.get("CV Notes", [])
+    if isinstance(cv_notes, list):
+        cv_notes = "\n".join(cv_notes)
+
+    quality_flags = package_data.get("Quality Flags", [])
+    if isinstance(quality_flags, list):
+        quality_flags = "\n".join(quality_flags) if quality_flags else ""
+
     row = [
-        package_data["company_name"],
-        package_data["role_title"],
-        package_data["fit_score"],
-        package_data["cover_letter"],
-        "\n".join(package_data["cv_notes"]),
-        package_data["company_brief"],
-        package_data.get("status", "To Apply"),
-        package_data.get("created_at", datetime.now().isoformat()),
+        package_data["Company"],
+        package_data["Role"],
+        package_data["Fit Score"],
+        package_data.get("Status", "To Apply"),
+        package_data.get("Created At", ""),
+        cv_notes,
+        package_data["Cover Letter"],
+        package_data["Company Brief"],
+        quality_flags,
     ]
 
     worksheet.append_row(row)
-    return f"Row appended successfully"
-
+    return "Row appended successfully"
 
 async def get_existing_applications(company_name: str) -> list[dict]:
     """

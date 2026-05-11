@@ -7,7 +7,7 @@ SYSTEM_PROMPT = """You are a research analyst helping a job candidate prepare fo
 Given web search results about a company, write a concise, factual company brief.
 Only include information present in the search results — do not invent or assume anything.
 Be direct and useful. The candidate wants to know things that actually matter for their application.
-Return only the brief, no preamble."""
+Return only the brief, no preamble abd NO MARKDOWN."""
 
 
 async def run_company_intel(job: JobAnalysis) -> str:

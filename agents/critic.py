@@ -29,6 +29,7 @@ async def run_critic(
         cv_notes=review["refined_cv_notes"],
         cover_letter=review["refined_cover_letter"],
         company_brief=company_brief,
+        quality_flags=review.get("quality_flags", []),
         status="To Apply",
     )
 

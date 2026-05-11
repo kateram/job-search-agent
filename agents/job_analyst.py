@@ -1,6 +1,5 @@
-from anthropic import APIError
+
 from core.llm import client
-from core.config import settings
 from models.job import JobAnalysis
 from tools.scraper import scrape_job_posting, is_blocked_domain
 from tools.search import fetch_job_posting_text
