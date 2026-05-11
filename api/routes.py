@@ -1,3 +1,4 @@
+import traceback
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -13,11 +14,6 @@ class PipelineRequest(BaseModel):
 
 @router.post("/run")
 async def run(request: PipelineRequest):
-    """
-    Run the full five-agent pipeline.
-    Accepts either a job posting URL or raw text.
-    Returns the complete ApplicationPackage as JSON.
-    """
     try:
         package = await run_pipeline(
             url=request.url or None,
@@ -36,7 +32,6 @@ async def run(request: PipelineRequest):
             "red_flags": package.job.red_flags,
             "status": package.status,
         })
-    except ValueError as e:
-        return JSONResponse(status_code=400, content={"error": str(e)})
     except Exception as e:
+        traceback.print_exc()    # ← prints full stack trace to terminal
         return JSONResponse(status_code=500, content={"error": str(e)})
