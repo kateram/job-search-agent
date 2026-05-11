@@ -22,3 +22,6 @@ credentials.json
 
 # Testing
 test_agent_1.py
+test_agent_4.py
+test_agents2_3.py
+test_all.py
