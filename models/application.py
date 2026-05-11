@@ -8,5 +8,6 @@ class ApplicationPackage(BaseModel):
     cv_notes: list[str]               # bullet points - which sections to reword
     cover_letter: str
     company_brief: str                # 3-5 sentences of company intel
+    quality_flags: list[str] = []
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     status: str = "To Apply"          # what gets written to Airtable
