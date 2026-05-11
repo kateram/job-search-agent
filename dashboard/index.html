@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Search Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --surface2: #1f1f1f;
+    --border: #2a2a2a;
+    --accent: #e8ff5a;
+    --accent-dim: #b8cc48;
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --text-dimmer: #555;
+    --red: #ff5a5a;
+    --green: #5aff8a;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  header .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  header .divider {
+    width: 1px;
+    height: 16px;
+    background: var(--border);
+  }
+
+  header .subtitle {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: var(--mono);
+  }
+
+  /* ── Main layout ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  /* ── Input section ── */
+  .input-section {
+    margin-bottom: 40px;
+  }
+
+  .mode-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: fit-content;
+    overflow: hidden;
+  }
+
+  .mode-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+
+  .mode-btn.active {
+    background: var(--accent);
+    color: #000;
+    font-weight: 500;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  input[type="text"], textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 12px 16px;
+    flex: 1;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+
+  input[type="text"] { height: 46px; }
+  textarea { min-height: 140px; }
+
+  .run-btn {
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 28px;
+    white-space: nowrap;
+    transition: background 0.15s, transform 0.1s;
+    height: 46px;
+    letter-spacing: 0.05em;
+  }
+
+  .run-btn:hover { background: var(--accent-dim); }
+  .run-btn:active { transform: scale(0.98); }
+  .run-btn:disabled { background: var(--border); color: var(--text-dimmer); cursor: not-allowed; }
+
+  /* ── Progress ── */
+  .progress {
+    display: none;
+    margin-bottom: 32px;
+  }
+
+  .progress.visible { display: block; }
+
+  .progress-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .agents-track {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .agent-pill {
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 14px;
+    color: var(--text-dimmer);
+    transition: all 0.3s;
+    letter-spacing: 0.04em;
+  }
+
+  .agent-pill.running {
+    border-color: var(--accent);
+    color: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .agent-pill.done {
+    border-color: var(--green);
+    color: var(--green);
+    animation: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── Score bar ── */
+  .score-bar {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .score-bar.visible {
+    display: flex;
+  }
+
+  .score-block {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .score-number {
+    font-family: var(--mono);
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .score-number.high { color: var(--green); }
+  .score-number.mid { color: var(--accent); }
+  .score-number.low { color: var(--red); }
+
+  .score-denom {
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--text-dimmer);
+  }
+
+  .score-meta {
+    flex: 1;
+  }
+
+  .score-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .score-role {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: var(--mono);
+  }
+
+  .flags-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .flag-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dimmer);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .flag-item {
+    font-size: 12px;
+    color: var(--red);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .flag-item::before { content: "!"; font-family: var(--mono); opacity: 0.6; }
+
+  /* ── Main panels ── */
+  .panels {
+    display: none;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .panels.visible {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .copy-btn.copied {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .panel-body {
+    padding: 20px;
+  }
+
+  /* Cover letter */
+  .cover-letter-text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+
+  /* CV notes checklist */
+  .cv-notes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cv-note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .cv-note-item:hover {
+    background: var(--surface2);
+    border-color: var(--border);
+  }
+
+  .cv-note-item.checked {
+    opacity: 0.4;
+  }
+
+  .cv-note-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+  }
+
+  .cv-note-item.checked .cv-note-checkbox {
+    background: var(--green);
+    border-color: var(--green);
+    color: #000;
+  }
+
+  .cv-note-text {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Company brief collapsible */
+  .brief-section {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .brief-section.visible { display: block; }
+
+  .brief-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    color: var(--text);
+  }
+
+  .brief-toggle:hover { background: var(--surface2); }
+
+  .brief-toggle-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .brief-chevron {
+    font-size: 12px;
+    color: var(--text-dimmer);
+    transition: transform 0.2s;
+  }
+
+  .brief-chevron.open { transform: rotate(180deg); }
+
+  .brief-body {
+    display: none;
+    padding: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .brief-body.open { display: block; }
+
+  .brief-text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  /* Job red flags row */
+  .red-flags-section {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .red-flags-section.visible { display: block; }
+
+  .red-flags-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+    opacity: 0.7;
+  }
+
+  .red-flag-item {
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .red-flag-item::before {
+    content: "—";
+    font-family: var(--mono);
+    color: var(--red);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* Error */
+  .error-msg {
+    display: none;
+    background: #1a0a0a;
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    color: var(--red);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+  }
+
+  .error-msg.visible { display: block; }
+
+  @media (max-width: 700px) {
+    .panels.visible { grid-template-columns: 1fr; }
+    main { padding: 24px 16px; }
+    header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">job search agent</span>
+  <span class="divider"></span>
+  <span class="subtitle">five-agent pipeline</span>
+</header>
+
+<main>
+
+  <!-- Input -->
+  <div class="input-section">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="urlModeBtn" onclick="setMode('url')">URL</button>
+      <button class="mode-btn" id="textModeBtn" onclick="setMode('text')">PASTE TEXT</button>
+    </div>
+
+    <div class="input-row">
+      <input type="text" id="urlInput" placeholder="https://boards.greenhouse.io/company/jobs/..." />
+      <textarea id="textInput" placeholder="Paste the full job description here..." style="display:none"></textarea>
+      <button class="run-btn" id="runBtn" onclick="runPipeline()">RUN</button>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress" id="progress">
+    <div class="progress-label">RUNNING PIPELINE</div>
+    <div class="agents-track">
+      <span class="agent-pill" id="pill-1">01 · job analyst</span>
+      <span class="agent-pill" id="pill-2">02 · cv advisor</span>
+      <span class="agent-pill" id="pill-3">03 · cover letter</span>
+      <span class="agent-pill" id="pill-4">04 · company intel</span>
+      <span class="agent-pill" id="pill-5">05 · critic</span>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- Score bar -->
+  <div class="score-bar" id="scoreBar">
+    <div class="score-block">
+      <span class="score-number" id="scoreNumber">—</span>
+      <span class="score-denom">/10</span>
+    </div>
+    <div class="score-meta">
+      <div class="score-title" id="scoreTitle">—</div>
+      <div class="score-role" id="scoreRole">—</div>
+    </div>
+    <div class="flags-section" id="qualityFlags"></div>
+  </div>
+
+  <!-- Red flags from job posting -->
+  <div class="red-flags-section" id="redFlagsSection">
+    <div class="red-flags-label">Job red flags</div>
+    <div id="redFlagsList"></div>
+  </div>
+
+  <!-- Main panels: cover letter + CV notes -->
+  <div class="panels" id="panels">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-label">Cover Letter</span>
+        <button class="copy-btn" id="copyBtn" onclick="copyCoverLetter()">COPY</button>
+      </div>
+      <div class="panel-body">
+        <div class="cover-letter-text" id="coverLetterText"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-label">CV Notes</span>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-dimmer)" id="cvProgress"></span>
+      </div>
+      <div class="panel-body">
+        <ul class="cv-notes-list" id="cvNotesList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company brief collapsible -->
+  <div class="brief-section" id="briefSection">
+    <button class="brief-toggle" onclick="toggleBrief()">
+      <span class="brief-toggle-label">Company Brief</span>
+      <span class="brief-chevron" id="briefChevron">▼</span>
+    </button>
+    <div class="brief-body" id="briefBody">
+      <div class="brief-text" id="briefText"></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  let mode = 'url'
+  let checkedNotes = new Set()
+
+  function setMode(m) {
+    mode = m
+    document.getElementById('urlInput').style.display = m === 'url' ? 'block' : 'none'
+    document.getElementById('textInput').style.display = m === 'text' ? 'block' : 'none'
+    document.getElementById('urlModeBtn').classList.toggle('active', m === 'url')
+    document.getElementById('textModeBtn').classList.toggle('active', m === 'text')
+  }
+
+  function setAgentState(num, state) {
+    const pill = document.getElementById(`pill-${num}`)
+    pill.className = `agent-pill ${state}`
+  }
+
+  function showProgress() {
+    document.getElementById('progress').classList.add('visible')
+    // Agent 1 starts immediately
+    setAgentState(1, 'running')
+  }
+
+  function hideProgress() {
+    document.getElementById('progress').classList.remove('visible')
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg')
+    el.textContent = msg
+    el.classList.add('visible')
+  }
+
+  function hideError() {
+    document.getElementById('errorMsg').classList.remove('visible')
+  }
+
+  function toggleBrief() {
+    const body = document.getElementById('briefBody')
+    const chevron = document.getElementById('briefChevron')
+    body.classList.toggle('open')
+    chevron.classList.toggle('open')
+  }
+
+  function copyCoverLetter() {
+    const text = document.getElementById('coverLetterText').textContent
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn')
+      btn.textContent = 'COPIED'
+      btn.classList.add('copied')
+      setTimeout(() => {
+        btn.textContent = 'COPY'
+        btn.classList.remove('copied')
+      }, 2000)
+    })
+  }
+
+  function toggleNote(index) {
+    const item = document.querySelector(`[data-note="${index}"]`)
+    if (checkedNotes.has(index)) {
+      checkedNotes.delete(index)
+      item.classList.remove('checked')
+      item.querySelector('.cv-note-checkbox').textContent = ''
+    } else {
+      checkedNotes.add(index)
+      item.classList.add('checked')
+      item.querySelector('.cv-note-checkbox').textContent = '✓'
+    }
+    updateCvProgress()
+  }
+
+  function updateCvProgress() {
+    const total = document.querySelectorAll('.cv-note-item').length
+    const done = checkedNotes.size
+    document.getElementById('cvProgress').textContent = `${done}/${total} done`
+  }
+
+  function renderResults(data) {
+    // Score bar
+    const scoreEl = document.getElementById('scoreNumber')
+    scoreEl.textContent = data.fit_score
+    scoreEl.className = 'score-number ' + (data.fit_score >= 7 ? 'high' : data.fit_score >= 4 ? 'mid' : 'low')
+    document.getElementById('scoreTitle').textContent = `${data.company_name}`
+    document.getElementById('scoreRole').textContent = data.role_title
+    document.getElementById('scoreBar').classList.add('visible')
+
+    // Quality flags
+    const flagsEl = document.getElementById('qualityFlags')
+    if (data.quality_flags && data.quality_flags.length > 0) {
+      flagsEl.innerHTML = `<div class="flag-label">OUTPUT FLAGS</div>` +
+        data.quality_flags.map(f => `<div class="flag-item">${f}</div>`).join('')
+    }
+
+    // Job red flags
+    if (data.red_flags && data.red_flags.length > 0) {
+      document.getElementById('redFlagsSection').classList.add('visible')
+      document.getElementById('redFlagsList').innerHTML =
+        data.red_flags.map(f => `<div class="red-flag-item">${f}</div>`).join('')
+    }
+
+    // Cover letter
+    document.getElementById('coverLetterText').textContent = data.cover_letter
+
+    // CV notes checklist
+    const list = document.getElementById('cvNotesList')
+    list.innerHTML = data.cv_notes.map((note, i) => `
+      <li class="cv-note-item" data-note="${i}" onclick="toggleNote(${i})">
+        <div class="cv-note-checkbox"></div>
+        <div class="cv-note-text">${note}</div>
+      </li>
+    `).join('')
+    updateCvProgress()
+
+    // Company brief
+    document.getElementById('briefText').textContent = data.company_brief
+    document.getElementById('briefSection').classList.add('visible')
+
+    // Show panels
+    document.getElementById('panels').classList.add('visible')
+  }
+
+  async function runPipeline() {
+    hideError()
+    checkedNotes.clear()
+
+    // Reset results
+    document.getElementById('scoreBar').classList.remove('visible')
+    document.getElementById('panels').classList.remove('visible')
+    document.getElementById('briefSection').classList.remove('visible')
+    document.getElementById('redFlagsSection').classList.remove('visible')
+    document.getElementById('qualityFlags').innerHTML = ''
+
+    const input = mode === 'url'
+      ? document.getElementById('urlInput').value.trim()
+      : document.getElementById('textInput').value.trim()
+
+    if (!input) {
+      showError(mode === 'url' ? 'Please enter a job posting URL.' : 'Please paste a job description.')
+      return
+    }
+
+    const btn = document.getElementById('runBtn')
+    btn.disabled = true
+    btn.textContent = 'RUNNING...'
+    showProgress()
+
+    // Animate agent pills with approximate timing
+    setTimeout(() => { setAgentState(1, 'done'); setAgentState(2, 'running'); setAgentState(3, 'running'); setAgentState(4, 'running') }, 4000)
+    setTimeout(() => { setAgentState(2, 'done'); setAgentState(3, 'done'); setAgentState(4, 'done'); setAgentState(5, 'running') }, 14000)
+
+    try {
+      const body = mode === 'url'
+        ? { url: input }
+        : { raw_text: input }
+
+      const res = await fetch('/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Pipeline failed')
+      }
+
+      setAgentState(5, 'done')
+      setTimeout(hideProgress, 800)
+      renderResults(data)
+
+    } catch (err) {
+      showError(`Error: ${err.message}`)
+      hideProgress()
+    } finally {
+      btn.disabled = false
+      btn.textContent = 'RUN'
+    }
+  }
+</script>
+</body>
+</html>
