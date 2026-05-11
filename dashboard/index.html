@@ -4,796 +4,331 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Job Search Agent</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
-  :root {
-    --bg: #0e0e0e;
-    --surface: #161616;
-    --surface2: #1f1f1f;
-    --border: #2a2a2a;
-    --accent: #e8ff5a;
-    --accent-dim: #b8cc48;
-    --text: #e8e8e8;
-    --text-dim: #888;
-    --text-dimmer: #555;
-    --red: #ff5a5a;
-    --green: #5aff8a;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 14px;
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-
-  /* ── Header ── */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 20px 32px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  header .logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  header .divider {
-    width: 1px;
-    height: 16px;
-    background: var(--border);
-  }
-
-  header .subtitle {
-    font-size: 12px;
-    color: var(--text-dim);
-    font-family: var(--mono);
-  }
-
-  /* ── Main layout ── */
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 32px;
-  }
-
-  /* ── Input section ── */
-  .input-section {
-    margin-bottom: 40px;
-  }
-
-  .mode-toggle {
-    display: flex;
-    gap: 0;
-    margin-bottom: 16px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    width: fit-content;
-    overflow: hidden;
-  }
-
-  .mode-btn {
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 8px 20px;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.05em;
-  }
-
-  .mode-btn.active {
-    background: var(--accent);
-    color: #000;
-    font-weight: 500;
-  }
-
-  .input-row {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  input[type="text"], textarea {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 13px;
-    padding: 12px 16px;
-    flex: 1;
-    outline: none;
-    transition: border-color 0.15s;
-    resize: vertical;
-  }
-
-  input[type="text"]:focus, textarea:focus {
-    border-color: var(--accent);
-  }
-
-  input[type="text"] { height: 46px; }
-  textarea { min-height: 140px; }
-
-  .run-btn {
-    background: var(--accent);
-    border: none;
-    border-radius: 6px;
-    color: #000;
-    cursor: pointer;
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 12px 28px;
-    white-space: nowrap;
-    transition: background 0.15s, transform 0.1s;
-    height: 46px;
-    letter-spacing: 0.05em;
-  }
-
-  .run-btn:hover { background: var(--accent-dim); }
-  .run-btn:active { transform: scale(0.98); }
-  .run-btn:disabled { background: var(--border); color: var(--text-dimmer); cursor: not-allowed; }
-
-  /* ── Progress ── */
-  .progress {
-    display: none;
-    margin-bottom: 32px;
-  }
-
-  .progress.visible { display: block; }
-
-  .progress-label {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-bottom: 12px;
-    letter-spacing: 0.05em;
-  }
-
-  .agents-track {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .agent-pill {
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 4px 14px;
-    color: var(--text-dimmer);
-    transition: all 0.3s;
-    letter-spacing: 0.04em;
-  }
-
-  .agent-pill.running {
-    border-color: var(--accent);
-    color: var(--accent);
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-
-  .agent-pill.done {
-    border-color: var(--green);
-    color: var(--green);
-    animation: none;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ── Score bar ── */
-  .score-bar {
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin-bottom: 24px;
-    align-items: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-
-  .score-bar.visible {
-    display: flex;
-  }
-
-  .score-block {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .score-number {
-    font-family: var(--mono);
-    font-size: 40px;
-    font-weight: 500;
-    line-height: 1;
-  }
-
-  .score-number.high { color: var(--green); }
-  .score-number.mid { color: var(--accent); }
-  .score-number.low { color: var(--red); }
-
-  .score-denom {
-    font-family: var(--mono);
-    font-size: 16px;
-    color: var(--text-dimmer);
-  }
-
-  .score-meta {
-    flex: 1;
-  }
-
-  .score-title {
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
-
-  .score-role {
-    font-size: 12px;
-    color: var(--text-dim);
-    font-family: var(--mono);
-  }
-
-  .flags-section {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .flag-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dimmer);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .flag-item {
-    font-size: 12px;
-    color: var(--red);
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .flag-item::before { content: "!"; font-family: var(--mono); opacity: 0.6; }
-
-  /* ── Main panels ── */
-  .panels {
-    display: none;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-
-  .panels.visible {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .panel-header {
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .panel-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
-  .copy-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-dim);
-    cursor: pointer;
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 4px 12px;
-    transition: all 0.15s;
-    letter-spacing: 0.04em;
-  }
-
-  .copy-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .copy-btn.copied {
-    border-color: var(--green);
-    color: var(--green);
-  }
-
-  .panel-body {
-    padding: 20px;
-  }
-
-  /* Cover letter */
-  .cover-letter-text {
-    font-size: 13px;
-    line-height: 1.8;
-    color: var(--text);
-    white-space: pre-wrap;
-  }
-
-  /* CV notes checklist */
-  .cv-notes-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .cv-note-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    cursor: pointer;
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .cv-note-item:hover {
-    background: var(--surface2);
-    border-color: var(--border);
-  }
-
-  .cv-note-item.checked {
-    opacity: 0.4;
-  }
-
-  .cv-note-checkbox {
-    width: 16px;
-    height: 16px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--green);
-  }
-
-  .cv-note-item.checked .cv-note-checkbox {
-    background: var(--green);
-    border-color: var(--green);
-    color: #000;
-  }
-
-  .cv-note-text {
-    font-size: 13px;
-    line-height: 1.6;
-  }
-
-  /* Company brief collapsible */
-  .brief-section {
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-
-  .brief-section.visible { display: block; }
-
-  .brief-toggle {
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    color: var(--text);
-  }
-
-  .brief-toggle:hover { background: var(--surface2); }
-
-  .brief-toggle-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
-  .brief-chevron {
-    font-size: 12px;
-    color: var(--text-dimmer);
-    transition: transform 0.2s;
-  }
-
-  .brief-chevron.open { transform: rotate(180deg); }
-
-  .brief-body {
-    display: none;
-    padding: 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  .brief-body.open { display: block; }
-
-  .brief-text {
-    font-size: 13px;
-    line-height: 1.8;
-    color: var(--text);
-  }
-
-  /* Job red flags row */
-  .red-flags-section {
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
-  }
-
-  .red-flags-section.visible { display: block; }
-
-  .red-flags-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 10px;
-    opacity: 0.7;
-  }
-
-  .red-flag-item {
-    font-size: 12px;
-    color: var(--text-dim);
-    padding: 4px 0;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-
-  .red-flag-item::before {
-    content: "—";
-    font-family: var(--mono);
-    color: var(--red);
-    opacity: 0.5;
-    flex-shrink: 0;
-  }
-
-  /* Error */
-  .error-msg {
-    display: none;
-    background: #1a0a0a;
-    border: 1px solid var(--red);
-    border-radius: 6px;
-    color: var(--red);
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 14px 18px;
-    margin-bottom: 24px;
-  }
-
-  .error-msg.visible { display: block; }
-
-  @media (max-width: 700px) {
-    .panels.visible { grid-template-columns: 1fr; }
-    main { padding: 24px 16px; }
-    header { padding: 16px; }
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f4f2;min-height:100vh;padding:24px;color:#1a1a1a}
+.page{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:20px 24px}
+.top-bar{display:flex;align-items:center;padding:14px 24px;background:#fff;border:0.5px solid #e5e5e5;border-radius:12px}
+.logo{font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px;color:#1a1a1a}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:#5DCAA5}
+.input-label{font-size:12px;color:#888;margin-bottom:10px;letter-spacing:0.03em}
+.mode-row{display:flex;gap:8px;margin-bottom:14px}
+.mode-btn{background:none;border:0.5px solid #e5e5e5;border-radius:8px;font-size:13px;padding:6px 16px;cursor:pointer;color:#888;transition:all 0.15s;font-family:inherit}
+.mode-btn.active{background:#E1F5EE;border-color:#5DCAA5;color:#0F6E56;font-weight:500}
+.input-row{display:flex;gap:10px;align-items:flex-start}
+input[type=text]{flex:1;height:40px;border:0.5px solid #e5e5e5;border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;background:#fafafa;color:#1a1a1a;outline:none;transition:all 0.15s}
+input[type=text]:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff}
+textarea{flex:1;min-height:110px;border:0.5px solid #e5e5e5;border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;background:#fafafa;color:#1a1a1a;outline:none;resize:vertical;line-height:1.5;transition:all 0.15s}
+textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff}
+.run-btn{height:40px;padding:0 22px;background:#1D9E75;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;font-family:inherit;transition:opacity 0.15s}
+.run-btn:hover{opacity:0.88}
+.run-btn:disabled{opacity:0.4;cursor:not-allowed}
+.progress-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:16px 24px;display:none}
+.progress-card.visible{display:block}
+.progress-label{font-size:12px;color:#888;margin-bottom:12px}
+.agents-row{display:flex;gap:8px;flex-wrap:wrap}
+.agent-pill{font-size:12px;padding:5px 14px;border-radius:100px;border:0.5px solid #e5e5e5;color:#bbb;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.agent-pill.running{border-color:#5DCAA5;color:#0F6E56;background:#E1F5EE}
+.agent-pill.done{border-color:#9FE1CB;color:#085041;background:#E1F5EE}
+.agent-pill.running i{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-card{background:#fef2f2;border:0.5px solid #fca5a5;border-radius:12px;padding:14px 20px;display:none;font-size:13px;color:#991b1b}
+.error-card.visible{display:block}
+.results{display:none;flex-direction:column;gap:16px}
+.results.visible{display:flex}
+.section-label{font-size:11px;font-weight:500;color:#aaa;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
+.score-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.score-badge{display:flex;align-items:baseline;gap:4px}
+.score-num{font-size:36px;font-weight:500;line-height:1}
+.score-num.high{color:#0F6E56}
+.score-num.mid{color:#BA7517}
+.score-num.low{color:#dc2626}
+.score-denom{font-size:14px;color:#bbb}
+.score-meta{flex:1}
+.score-company{font-size:15px;font-weight:500;color:#1a1a1a}
+.score-role{font-size:13px;color:#888;margin-top:2px}
+.status-pill{font-size:12px;padding:5px 14px;border-radius:100px;background:#E1F5EE;color:#0F6E56;border:0.5px solid #9FE1CB;font-weight:500}
+.divider{border:none;border-top:0.5px solid #f0f0f0;margin:16px 0}
+.flags-row{display:flex;flex-direction:column;gap:6px}
+.red-flag-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#666}
+.red-flag-item i{margin-top:2px;flex-shrink:0;color:#BA7517;font-size:14px}
+.tab-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;overflow:hidden}
+.tab-bar{display:flex;border-bottom:0.5px solid #f0f0f0;background:#fafafa}
+.tab{flex:1;padding:13px 16px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-0.5px;font-size:13px;font-family:inherit;color:#888;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tab:hover{color:#1a1a1a;background:#f4f4f4}
+.tab.active{color:#0F6E56;border-bottom-color:#1D9E75;font-weight:500;background:#fff}
+.tab-body{padding:24px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.output-flag-banner{background:#FFF8E6;border:0.5px solid #FAC775;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#633806;line-height:1.5}
+.output-flag-banner i{flex-shrink:0;margin-top:1px;color:#BA7517;font-size:14px}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.copy-btn{display:flex;align-items:center;gap:5px;background:none;border:0.5px solid #e5e5e5;border-radius:8px;font-size:12px;padding:5px 12px;cursor:pointer;color:#888;transition:all 0.15s;font-family:inherit}
+.copy-btn:hover{border-color:#5DCAA5;color:#0F6E56}
+.copy-btn.copied{border-color:#5DCAA5;color:#0F6E56;background:#E1F5EE}
+.cover-text{font-size:13px;line-height:1.9;color:#1a1a1a;white-space:pre-wrap}
+.notes-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.note-item{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;border:0.5px solid transparent;transition:background 0.1s}
+.note-item:hover{background:#fafafa;border-color:#f0f0f0}
+.note-item.checked{opacity:0.4}
+.note-cb{width:16px;height:16px;border:0.5px solid #d0d0d0;border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.15s}
+.note-item.checked .note-cb{background:#E1F5EE;border-color:#5DCAA5;color:#0F6E56}
+.note-text{font-size:13px;line-height:1.5;color:#1a1a1a}
+.notes-progress{font-size:12px;color:#aaa}
+.notes-badge{background:#E1F5EE;color:#0F6E56;border-radius:100px;padding:1px 8px;font-size:11px;margin-left:4px}
+.brief-text{font-size:13px;line-height:1.9;color:#1a1a1a}
 </style>
 </head>
 <body>
 
-<header>
-  <span class="logo">job search agent</span>
-  <span class="divider"></span>
-  <span class="subtitle">five-agent pipeline</span>
-</header>
+<div class="page">
 
-<main>
+  <div class="top-bar">
+    <div class="logo"><span class="logo-dot"></span>Job search agent</div>
+  </div>
 
-  <!-- Input -->
-  <div class="input-section">
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="urlModeBtn" onclick="setMode('url')">URL</button>
-      <button class="mode-btn" id="textModeBtn" onclick="setMode('text')">PASTE TEXT</button>
+  <div class="card">
+    <div class="input-label">Job posting</div>
+    <div class="mode-row">
+      <button class="mode-btn active" id="urlBtn" onclick="setMode('url')">
+        <i class="ti ti-link" style="font-size:14px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>URL
+      </button>
+      <button class="mode-btn" id="textBtn" onclick="setMode('text')">
+        <i class="ti ti-clipboard-text" style="font-size:14px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>Paste text
+      </button>
     </div>
-
     <div class="input-row">
       <input type="text" id="urlInput" placeholder="https://boards.greenhouse.io/company/jobs/..." />
       <textarea id="textInput" placeholder="Paste the full job description here..." style="display:none"></textarea>
-      <button class="run-btn" id="runBtn" onclick="runPipeline()">RUN</button>
+      <button class="run-btn" id="runBtn" onclick="runPipeline()">
+        <i class="ti ti-player-play" style="font-size:14px" aria-hidden="true"></i>Run
+      </button>
     </div>
   </div>
 
-  <!-- Progress -->
-  <div class="progress" id="progress">
-    <div class="progress-label">RUNNING PIPELINE</div>
-    <div class="agents-track">
-      <span class="agent-pill" id="pill-1">01 · job analyst</span>
-      <span class="agent-pill" id="pill-2">02 · cv advisor</span>
-      <span class="agent-pill" id="pill-3">03 · cover letter</span>
-      <span class="agent-pill" id="pill-4">04 · company intel</span>
-      <span class="agent-pill" id="pill-5">05 · critic</span>
+  <div class="progress-card" id="progressCard">
+    <div class="progress-label">Running pipeline</div>
+    <div class="agents-row">
+      <span class="agent-pill" id="p1"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Job analyst</span>
+      <span class="agent-pill" id="p2"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>CV advisor</span>
+      <span class="agent-pill" id="p3"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Cover letter</span>
+      <span class="agent-pill" id="p4"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Company intel</span>
+      <span class="agent-pill" id="p5"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Critic</span>
     </div>
   </div>
 
-  <!-- Error -->
-  <div class="error-msg" id="errorMsg"></div>
+  <div class="error-card" id="errorCard"></div>
 
-  <!-- Score bar -->
-  <div class="score-bar" id="scoreBar">
-    <div class="score-block">
-      <span class="score-number" id="scoreNumber">—</span>
-      <span class="score-denom">/10</span>
-    </div>
-    <div class="score-meta">
-      <div class="score-title" id="scoreTitle">—</div>
-      <div class="score-role" id="scoreRole">—</div>
-    </div>
-    <div class="flags-section" id="qualityFlags"></div>
-  </div>
+  <div class="results" id="results">
 
-  <!-- Red flags from job posting -->
-  <div class="red-flags-section" id="redFlagsSection">
-    <div class="red-flags-label">Job red flags</div>
-    <div id="redFlagsList"></div>
-  </div>
-
-  <!-- Main panels: cover letter + CV notes -->
-  <div class="panels" id="panels">
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-label">Cover Letter</span>
-        <button class="copy-btn" id="copyBtn" onclick="copyCoverLetter()">COPY</button>
+    <div class="card">
+      <div class="score-row">
+        <div class="score-badge">
+          <span class="score-num" id="scoreNum">—</span>
+          <span class="score-denom">/10</span>
+        </div>
+        <div class="score-meta">
+          <div class="score-company" id="scoreCompany">—</div>
+          <div class="score-role" id="scoreRole">—</div>
+        </div>
+        <span class="status-pill">To Apply</span>
       </div>
-      <div class="panel-body">
-        <div class="cover-letter-text" id="coverLetterText"></div>
+      <div id="redFlagsWrap" style="display:none">
+        <hr class="divider">
+        <div class="section-label">Job red flags</div>
+        <div class="flags-row" id="redFlags"></div>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-label">CV Notes</span>
-        <span style="font-family:var(--mono);font-size:11px;color:var(--text-dimmer)" id="cvProgress"></span>
+    <div class="tab-card">
+      <div class="tab-bar">
+        <button class="tab active" id="tab-btn-cover" onclick="setTab('cover')">
+          <i class="ti ti-mail" style="font-size:14px" aria-hidden="true"></i>Cover letter
+        </button>
+        <button class="tab" id="tab-btn-notes" onclick="setTab('notes')">
+          <i class="ti ti-list-check" style="font-size:14px" aria-hidden="true"></i>CV notes
+          <span class="notes-badge" id="notesBadge">0/0</span>
+        </button>
+        <button class="tab" id="tab-btn-brief" onclick="setTab('brief')">
+          <i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i>Company brief
+        </button>
       </div>
-      <div class="panel-body">
-        <ul class="cv-notes-list" id="cvNotesList"></ul>
+
+      <div class="tab-body">
+
+        <div class="tab-panel active" id="tab-cover">
+          <div id="outputFlagBanner" style="display:none" class="output-flag-banner">
+            <i class="ti ti-info-circle" aria-hidden="true"></i>
+            <span id="outputFlagText"></span>
+          </div>
+          <div class="panel-header">
+            <span style="font-size:12px;color:#aaa">Ready to copy</span>
+            <button class="copy-btn" id="copyBtn" onclick="copyCover()">
+              <i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy
+            </button>
+          </div>
+          <div class="cover-text" id="coverText"></div>
+        </div>
+
+        <div class="tab-panel" id="tab-notes">
+          <div class="panel-header">
+            <span style="font-size:13px;color:#888">Check off as you update your CV</span>
+            <span class="notes-progress" id="notesProgress">0/0 done</span>
+          </div>
+          <ul class="notes-list" id="notesList"></ul>
+        </div>
+
+        <div class="tab-panel" id="tab-brief">
+          <div class="brief-text" id="briefText"></div>
+        </div>
+
       </div>
     </div>
-  </div>
 
-  <!-- Company brief collapsible -->
-  <div class="brief-section" id="briefSection">
-    <button class="brief-toggle" onclick="toggleBrief()">
-      <span class="brief-toggle-label">Company Brief</span>
-      <span class="brief-chevron" id="briefChevron">▼</span>
-    </button>
-    <div class="brief-body" id="briefBody">
-      <div class="brief-text" id="briefText"></div>
-    </div>
   </div>
-
-</main>
+</div>
 
 <script>
-  let mode = 'url'
-  let checkedNotes = new Set()
+let mode = 'url'
+let checked = new Set()
 
-  function setMode(m) {
-    mode = m
-    document.getElementById('urlInput').style.display = m === 'url' ? 'block' : 'none'
-    document.getElementById('textInput').style.display = m === 'text' ? 'block' : 'none'
-    document.getElementById('urlModeBtn').classList.toggle('active', m === 'url')
-    document.getElementById('textModeBtn').classList.toggle('active', m === 'text')
+function setMode(m) {
+  mode = m
+  document.getElementById('urlInput').style.display = m === 'url' ? 'block' : 'none'
+  document.getElementById('textInput').style.display = m === 'text' ? 'block' : 'none'
+  document.getElementById('urlBtn').classList.toggle('active', m === 'url')
+  document.getElementById('textBtn').classList.toggle('active', m === 'text')
+}
+
+function setTab(t) {
+  ;['cover', 'notes', 'brief'].forEach(name => {
+    document.getElementById('tab-' + name).classList.toggle('active', name === t)
+    document.getElementById('tab-btn-' + name).classList.toggle('active', name === t)
+  })
+}
+
+function setAgent(id, state) {
+  const el = document.getElementById(id)
+  el.className = 'agent-pill ' + state
+  const i = el.querySelector('i')
+  if (state === 'running') i.className = 'ti ti-loader'
+  else if (state === 'done') i.className = 'ti ti-circle-check'
+  else i.className = 'ti ti-circle'
+}
+
+function copyCover() {
+  navigator.clipboard.writeText(document.getElementById('coverText').textContent).then(() => {
+    const btn = document.getElementById('copyBtn')
+    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px" aria-hidden="true"></i>Copied'
+    btn.classList.add('copied')
+    setTimeout(() => {
+      btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy'
+      btn.classList.remove('copied')
+    }, 2000)
+  })
+}
+
+function toggleNote(i) {
+  const item = document.querySelector('[data-i="' + i + '"]')
+  const cb = item.querySelector('.note-cb')
+  if (checked.has(i)) {
+    checked.delete(i); item.classList.remove('checked'); cb.innerHTML = ''
+  } else {
+    checked.add(i); item.classList.add('checked')
+    cb.innerHTML = '<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>'
+  }
+  const total = document.querySelectorAll('.note-item').length
+  document.getElementById('notesProgress').textContent = checked.size + '/' + total + ' done'
+  document.getElementById('notesBadge').textContent = checked.size + '/' + total
+}
+
+function renderResults(data) {
+  const s = data.fit_score
+  const sEl = document.getElementById('scoreNum')
+  sEl.textContent = s
+  sEl.className = 'score-num ' + (s >= 7 ? 'high' : s >= 4 ? 'mid' : 'low')
+  document.getElementById('scoreCompany').textContent = data.company_name
+  document.getElementById('scoreRole').textContent = data.role_title
+
+  if (data.red_flags && data.red_flags.length) {
+    document.getElementById('redFlagsWrap').style.display = 'block'
+    document.getElementById('redFlags').innerHTML = data.red_flags
+      .map(f => '<div class="red-flag-item"><i class="ti ti-alert-triangle" aria-hidden="true"></i>' + f + '</div>').join('')
   }
 
-  function setAgentState(num, state) {
-    const pill = document.getElementById(`pill-${num}`)
-    pill.className = `agent-pill ${state}`
+  if (data.quality_flags && data.quality_flags.length) {
+    document.getElementById('outputFlagBanner').style.display = 'flex'
+    document.getElementById('outputFlagText').textContent = data.quality_flags.join(' · ')
   }
 
-  function showProgress() {
-    document.getElementById('progress').classList.add('visible')
-    // Agent 1 starts immediately
-    setAgentState(1, 'running')
+  document.getElementById('coverText').textContent = data.cover_letter
+
+  checked.clear()
+  const list = document.getElementById('notesList')
+  list.innerHTML = data.cv_notes.map((n, i) =>
+    '<li class="note-item" data-i="' + i + '" onclick="toggleNote(' + i + ')">' +
+    '<div class="note-cb"></div><div class="note-text">' + n + '</div></li>'
+  ).join('')
+  const total = data.cv_notes.length
+  document.getElementById('notesProgress').textContent = '0/' + total + ' done'
+  document.getElementById('notesBadge').textContent = '0/' + total
+
+  document.getElementById('briefText').textContent = data.company_brief
+  document.getElementById('results').classList.add('visible')
+  setTab('cover')
+}
+
+async function runPipeline() {
+  checked.clear()
+  document.getElementById('results').classList.remove('visible')
+  document.getElementById('errorCard').classList.remove('visible')
+  document.getElementById('redFlagsWrap').style.display = 'none'
+  document.getElementById('outputFlagBanner').style.display = 'none'
+
+  const input = mode === 'url'
+    ? document.getElementById('urlInput').value.trim()
+    : document.getElementById('textInput').value.trim()
+
+  if (!input) {
+    const e = document.getElementById('errorCard')
+    e.textContent = mode === 'url' ? 'Please enter a job posting URL.' : 'Please paste a job description.'
+    e.classList.add('visible')
+    return
   }
 
-  function hideProgress() {
-    document.getElementById('progress').classList.remove('visible')
-  }
+  const btn = document.getElementById('runBtn')
+  btn.disabled = true
+  btn.innerHTML = '<i class="ti ti-loader" style="font-size:14px;animation:spin 1s linear infinite" aria-hidden="true"></i>Running'
 
-  function showError(msg) {
-    const el = document.getElementById('errorMsg')
-    el.textContent = msg
-    el.classList.add('visible')
-  }
+  document.getElementById('progressCard').classList.add('visible')
+  setAgent('p1', 'running')
+  setTimeout(function() { setAgent('p1', 'done'); setAgent('p2', 'running'); setAgent('p3', 'running'); setAgent('p4', 'running') }, 4000)
+  setTimeout(function() { setAgent('p2', 'done'); setAgent('p3', 'done'); setAgent('p4', 'done'); setAgent('p5', 'running') }, 14000)
 
-  function hideError() {
-    document.getElementById('errorMsg').classList.remove('visible')
-  }
-
-  function toggleBrief() {
-    const body = document.getElementById('briefBody')
-    const chevron = document.getElementById('briefChevron')
-    body.classList.toggle('open')
-    chevron.classList.toggle('open')
-  }
-
-  function copyCoverLetter() {
-    const text = document.getElementById('coverLetterText').textContent
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copyBtn')
-      btn.textContent = 'COPIED'
-      btn.classList.add('copied')
-      setTimeout(() => {
-        btn.textContent = 'COPY'
-        btn.classList.remove('copied')
-      }, 2000)
+  try {
+    const body = mode === 'url' ? { url: input } : { raw_text: input }
+    const res = await fetch('/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
     })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Pipeline failed')
+    setAgent('p5', 'done')
+    setTimeout(function() { document.getElementById('progressCard').classList.remove('visible') }, 800)
+    renderResults(data)
+  } catch (e) {
+    const err = document.getElementById('errorCard')
+    err.textContent = 'Error: ' + e.message
+    err.classList.add('visible')
+    document.getElementById('progressCard').classList.remove('visible')
+  } finally {
+    btn.disabled = false
+    btn.innerHTML = '<i class="ti ti-player-play" style="font-size:14px" aria-hidden="true"></i>Run'
   }
-
-  function toggleNote(index) {
-    const item = document.querySelector(`[data-note="${index}"]`)
-    if (checkedNotes.has(index)) {
-      checkedNotes.delete(index)
-      item.classList.remove('checked')
-      item.querySelector('.cv-note-checkbox').textContent = ''
-    } else {
-      checkedNotes.add(index)
-      item.classList.add('checked')
-      item.querySelector('.cv-note-checkbox').textContent = '✓'
-    }
-    updateCvProgress()
-  }
-
-  function updateCvProgress() {
-    const total = document.querySelectorAll('.cv-note-item').length
-    const done = checkedNotes.size
-    document.getElementById('cvProgress').textContent = `${done}/${total} done`
-  }
-
-  function renderResults(data) {
-    // Score bar
-    const scoreEl = document.getElementById('scoreNumber')
-    scoreEl.textContent = data.fit_score
-    scoreEl.className = 'score-number ' + (data.fit_score >= 7 ? 'high' : data.fit_score >= 4 ? 'mid' : 'low')
-    document.getElementById('scoreTitle').textContent = `${data.company_name}`
-    document.getElementById('scoreRole').textContent = data.role_title
-    document.getElementById('scoreBar').classList.add('visible')
-
-    // Quality flags
-    const flagsEl = document.getElementById('qualityFlags')
-    if (data.quality_flags && data.quality_flags.length > 0) {
-      flagsEl.innerHTML = `<div class="flag-label">OUTPUT FLAGS</div>` +
-        data.quality_flags.map(f => `<div class="flag-item">${f}</div>`).join('')
-    }
-
-    // Job red flags
-    if (data.red_flags && data.red_flags.length > 0) {
-      document.getElementById('redFlagsSection').classList.add('visible')
-      document.getElementById('redFlagsList').innerHTML =
-        data.red_flags.map(f => `<div class="red-flag-item">${f}</div>`).join('')
-    }
-
-    // Cover letter
-    document.getElementById('coverLetterText').textContent = data.cover_letter
-
-    // CV notes checklist
-    const list = document.getElementById('cvNotesList')
-    list.innerHTML = data.cv_notes.map((note, i) => `
-      <li class="cv-note-item" data-note="${i}" onclick="toggleNote(${i})">
-        <div class="cv-note-checkbox"></div>
-        <div class="cv-note-text">${note}</div>
-      </li>
-    `).join('')
-    updateCvProgress()
-
-    // Company brief
-    document.getElementById('briefText').textContent = data.company_brief
-    document.getElementById('briefSection').classList.add('visible')
-
-    // Show panels
-    document.getElementById('panels').classList.add('visible')
-  }
-
-  async function runPipeline() {
-    hideError()
-    checkedNotes.clear()
-
-    // Reset results
-    document.getElementById('scoreBar').classList.remove('visible')
-    document.getElementById('panels').classList.remove('visible')
-    document.getElementById('briefSection').classList.remove('visible')
-    document.getElementById('redFlagsSection').classList.remove('visible')
-    document.getElementById('qualityFlags').innerHTML = ''
-
-    const input = mode === 'url'
-      ? document.getElementById('urlInput').value.trim()
-      : document.getElementById('textInput').value.trim()
-
-    if (!input) {
-      showError(mode === 'url' ? 'Please enter a job posting URL.' : 'Please paste a job description.')
-      return
-    }
-
-    const btn = document.getElementById('runBtn')
-    btn.disabled = true
-    btn.textContent = 'RUNNING...'
-    showProgress()
-
-    // Animate agent pills with approximate timing
-    setTimeout(() => { setAgentState(1, 'done'); setAgentState(2, 'running'); setAgentState(3, 'running'); setAgentState(4, 'running') }, 4000)
-    setTimeout(() => { setAgentState(2, 'done'); setAgentState(3, 'done'); setAgentState(4, 'done'); setAgentState(5, 'running') }, 14000)
-
-    try {
-      const body = mode === 'url'
-        ? { url: input }
-        : { raw_text: input }
-
-      const res = await fetch('/run', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Pipeline failed')
-      }
-
-      setAgentState(5, 'done')
-      setTimeout(hideProgress, 800)
-      renderResults(data)
-
-    } catch (err) {
-      showError(`Error: ${err.message}`)
-      hideProgress()
-    } finally {
-      btn.disabled = false
-      btn.textContent = 'RUN'
-    }
-  }
+}
 </script>
 </body>
 </html>
