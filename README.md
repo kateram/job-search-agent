@@ -8,7 +8,7 @@ Built with the Anthropic API, FastAPI, RAG over personal documents, and parallel
 
 ## Demo
 
-![Dashboard results view showing score card, cover letter with sentence highlighting, and CV notes checklist]
+![Dashboard](docs/screenshot.png)
 
 > Paste a job URL or description → five agents run → review your package → click any sentence in the cover letter to select and rewrite it
 
