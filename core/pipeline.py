@@ -5,7 +5,7 @@ from agents.cv_advisor import run_cv_advisor
 from agents.cover_letter import run_cover_letter
 from agents.company_intel import run_company_intel
 from agents.critic import run_critic
-from tools.sheets import write_application
+from tools.storage import save_application, init_db
 
 
 async def run_pipeline(
@@ -20,29 +20,31 @@ async def run_pipeline(
     if not url and not raw_text:
         raise ValueError("Must provide either a URL or raw_text")
 
-    # Agent 1 — sequential, everything depends on this
+    init_db()
+
     job = await run_job_analyst(url=url, raw_text=raw_text)
 
-    # Agents 2, 3, 4 — parallel, independent of each other
     cv_notes, cover_letter, company_brief = await asyncio.gather(
         run_cv_advisor(job),
         run_cover_letter(job),
         run_company_intel(job),
     )
 
-    # Agent 5 — sequential, depends on all three above
     package = await run_critic(job, cv_notes, cover_letter, company_brief)
 
-    # Write to Google Sheets
-    await write_application({
-    "Company": package.job.company_name,
-    "Role": package.job.role_title,
-    "Fit Score": package.fit_score,
-    "Cover Letter": package.cover_letter,
-    "CV Notes": package.cv_notes,
-    "Company Brief": package.company_brief,
-    "Quality Flags": package.quality_flags,
-    "Status": package.status,
-    "Created At": package.created_at.isoformat(),
-})
+    save_application({
+        "company_name": package.job.company_name,
+        "role_title": package.job.role_title,
+        "location": package.job.location,
+        "fit_score": package.fit_score,
+        "cover_letter": package.cover_letter,
+        "cv_notes": package.cv_notes,
+        "company_brief": package.company_brief,
+        "quality_flags": package.quality_flags,
+        "red_flags": package.job.red_flags,
+        "required_skills": package.job.required_skills,
+        "raw_text": package.job.raw_text,
+        "status": package.status,
+    })
+
     return package
