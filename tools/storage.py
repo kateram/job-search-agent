@@ -33,7 +33,8 @@ def init_db():
             red_flags   TEXT NOT NULL DEFAULT '[]',
             required_skills TEXT NOT NULL DEFAULT '[]',
             raw_text    TEXT,
-            created_at  TEXT NOT NULL
+            created_at  TEXT NOT NULL,
+            cv_chunks   TEXT NOT NULL DEFAULT '[]'
         )
     """)
     conn.commit()
@@ -41,18 +42,14 @@ def init_db():
 
 
 def save_application(package_data: dict) -> int:
-    """
-    Save a completed application package to SQLite.
-    Returns the new row ID.
-    """
     conn = _get_conn()
     cursor = conn.execute("""
         INSERT INTO applications (
             company, role, location, fit_score, status,
             cover_letter, cv_notes, company_brief,
             quality_flags, red_flags, required_skills,
-            raw_text, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            cv_chunks, raw_text, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         package_data["company_name"],
         package_data["role_title"],
@@ -65,6 +62,7 @@ def save_application(package_data: dict) -> int:
         json.dumps(package_data.get("quality_flags", [])),
         json.dumps(package_data.get("red_flags", [])),
         json.dumps(package_data.get("required_skills", [])),
+        json.dumps(package_data.get("cv_chunks", [])),
         package_data.get("raw_text", ""),
         datetime.now(timezone.utc).isoformat(),
     ))
@@ -106,6 +104,7 @@ def get_application(app_id: int) -> dict | None:
     data["quality_flags"] = json.loads(data["quality_flags"])
     data["red_flags"] = json.loads(data["red_flags"])
     data["required_skills"] = json.loads(data["required_skills"])
+    data["cv_chunks"] = json.loads(data["cv_chunks"])
     return data
 
 

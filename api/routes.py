@@ -4,6 +4,9 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from core.pipeline import run_pipeline
 from tools.storage import get_all_applications, get_application, update_status
+from agents.cover_letter import regenerate_sentences, regenerate_full_letter, _split_sentences
+from agents.job_analyst import run_job_analyst
+
 
 router = APIRouter()
 
@@ -16,6 +19,11 @@ class PipelineRequest(BaseModel):
 class StatusUpdate(BaseModel):
     status: str
 
+class RegenerateRequest(BaseModel):
+    application_id: int
+    feedback: str
+    selected_indices: list[int] = []   
+    current_letter: str
 
 @router.post("/run")
 async def run(request: PipelineRequest):
@@ -64,3 +72,61 @@ async def patch_status(app_id: int, body: StatusUpdate):
     if not updated:
         return JSONResponse(status_code=404, content={"error": "Not found"})
     return JSONResponse(content={"ok": True})
+
+@router.post("/regenerate-cover-letter")
+async def regenerate_cover_letter(request: RegenerateRequest):
+    try:
+        data = get_application(request.application_id)
+        if not data:
+            return JSONResponse(status_code=404, content={"error": "Application not found"})
+
+        # Reconstruct job from stored data
+        from models.job import JobAnalysis
+        job = JobAnalysis(
+            company_name=data["company"],
+            role_title=data["role"],
+            location=data.get("location", ""),
+            required_skills=data.get("required_skills", []),
+            nice_to_have_skills=[],
+            responsibilities=[],
+            culture_signals=[],
+            red_flags=data.get("red_flags", []),
+            raw_text=data.get("raw_text", ""),
+        )
+
+        cv_chunks = data.get("cv_chunks", [])
+
+        if request.selected_indices:
+            new_letter = await regenerate_sentences(
+                full_letter=request.current_letter,
+                selected_indices=request.selected_indices,
+                feedback=request.feedback,
+                job=job,
+                cv_chunks=cv_chunks,
+            )
+        else:
+            new_letter = await regenerate_full_letter(
+                current_letter=request.current_letter,
+                feedback=request.feedback,
+                job=job,
+                cv_chunks=cv_chunks,
+            )
+
+        # Save updated letter to db
+        from tools.storage import _get_conn
+        conn = _get_conn()
+        conn.execute(
+            "UPDATE applications SET cover_letter = ? WHERE id = ?",
+            (new_letter, request.application_id)
+        )
+        conn.commit()
+        conn.close()
+
+        return JSONResponse(content={
+            "cover_letter": new_letter,
+            "sentences": _split_sentences(new_letter)
+        })
+
+    except Exception as e:
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": str(e)})
