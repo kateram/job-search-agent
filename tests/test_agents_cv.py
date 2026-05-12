@@ -38,9 +38,9 @@ async def test_cover_letter_returns_string(sample_job):
     with patch("agents.cover_letter.retrieve", return_value=["CV chunk 1"]), \
          patch("agents.cover_letter.client.messages.create") as mock_llm:
         mock_llm.return_value.content = [MagicMock(text="Dear Hiring Manager, I am excited...")]
-        result = await run_cover_letter(sample_job)
-        assert isinstance(result, str)
-        assert len(result) > 0
+        letter, cv_chunks = await run_cover_letter(sample_job)
+        assert isinstance(letter, str)
+        assert isinstance(cv_chunks, list)
 
 
 @pytest.mark.asyncio
@@ -55,5 +55,6 @@ async def test_cover_letter_handles_missing_cover_letter_collection(sample_job):
     with patch("agents.cover_letter.retrieve", side_effect=mock_retrieve), \
          patch("agents.cover_letter.client.messages.create") as mock_llm:
         mock_llm.return_value.content = [MagicMock(text="Dear Hiring Manager...")]
-        result = await run_cover_letter(sample_job)
-        assert isinstance(result, str)
+        letter, cv_chunks = await run_cover_letter(sample_job)
+        assert isinstance(letter, str)
+        assert isinstance(cv_chunks, list)
