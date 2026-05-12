@@ -42,18 +42,14 @@ def init_db():
 
 
 def save_application(package_data: dict) -> int:
-    """
-    Save a completed application package to SQLite.
-    Returns the new row ID.
-    """
     conn = _get_conn()
     cursor = conn.execute("""
         INSERT INTO applications (
             company, role, location, fit_score, status,
             cover_letter, cv_notes, company_brief,
             quality_flags, red_flags, required_skills,
-            raw_text, created_at, cv_chunks
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            cv_chunks, raw_text, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         package_data["company_name"],
         package_data["role_title"],
@@ -66,9 +62,9 @@ def save_application(package_data: dict) -> int:
         json.dumps(package_data.get("quality_flags", [])),
         json.dumps(package_data.get("red_flags", [])),
         json.dumps(package_data.get("required_skills", [])),
+        json.dumps(package_data.get("cv_chunks", [])),
         package_data.get("raw_text", ""),
         datetime.now(timezone.utc).isoformat(),
-        json.dumps(package_data.get("cv_chunks", []))
     ))
     conn.commit()
     row_id = cursor.lastrowid

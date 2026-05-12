@@ -7,6 +7,7 @@ from tools.storage import get_all_applications, get_application, update_status
 from agents.cover_letter import regenerate_sentences, regenerate_full_letter, _split_sentences
 from agents.job_analyst import run_job_analyst
 
+
 router = APIRouter()
 
 
