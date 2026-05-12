@@ -1,17 +1,12 @@
 anthropic
 fastapi
 uvicorn[standard]
-websockets
 httpx
 beautifulsoup4
 tavily-python
 chromadb
 pydantic
 pydantic-settings
-python-dotenv
 pytest
 pytest-asyncio
-gspread
-google-auth
 sentence-transformers
-gspread-formatting
