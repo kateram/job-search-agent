@@ -8,7 +8,7 @@ Built with the Anthropic API, FastAPI, RAG over personal documents, and parallel
 
 ## Demo
 
-![Dashboard](docs/screenshot.png)
+![Dashboard](docs/Screenshot.png)
 
 > Paste a job URL or description → five agents run → review your package → click any sentence in the cover letter to select and rewrite it
 
