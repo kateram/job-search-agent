@@ -6,6 +6,7 @@ from core.pipeline import run_pipeline
 from tools.storage import get_all_applications, get_application, update_status
 from agents.cover_letter import regenerate_sentences, regenerate_full_letter, _split_sentences
 from agents.job_analyst import run_job_analyst
+from agents.written_sections import generate_section, regenerate_section
 
 
 router = APIRouter()
@@ -24,6 +25,17 @@ class RegenerateRequest(BaseModel):
     feedback: str
     selected_indices: list[int] = []   
     current_letter: str
+
+class SectionRequest(BaseModel):
+    application_id: int
+    question: str
+
+
+class SectionRegenerateRequest(BaseModel):
+    application_id: int
+    question: str
+    current_answer: str
+    feedback: str
 
 @router.post("/run")
 async def run(request: PipelineRequest):
@@ -126,6 +138,75 @@ async def regenerate_cover_letter(request: RegenerateRequest):
             "cover_letter": new_letter,
             "sentences": _split_sentences(new_letter)
         })
+
+    except Exception as e:
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": str(e)})
+    
+@router.post("/generate-section")
+async def generate_section_route(request: SectionRequest):
+    try:
+        data = get_application(request.application_id)
+        if not data:
+            return JSONResponse(status_code=404, content={"error": "Application not found"})
+
+        from models.job import JobAnalysis
+        job = JobAnalysis(
+            company_name=data["company"],
+            role_title=data["role"],
+            location=data.get("location", ""),
+            required_skills=data.get("required_skills", []),
+            nice_to_have_skills=[],
+            responsibilities=[],
+            culture_signals=[],
+            red_flags=data.get("red_flags", []),
+            raw_text=data.get("raw_text", ""),
+        )
+
+        cv_chunks = data.get("cv_chunks", [])
+        answer = await generate_section(
+            question=request.question,
+            job=job,
+            cv_chunks=cv_chunks,
+        )
+
+        return JSONResponse(content={"answer": answer})
+
+    except Exception as e:
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+
+@router.post("/regenerate-section")
+async def regenerate_section_route(request: SectionRegenerateRequest):
+    try:
+        data = get_application(request.application_id)
+        if not data:
+            return JSONResponse(status_code=404, content={"error": "Application not found"})
+
+        from models.job import JobAnalysis
+        job = JobAnalysis(
+            company_name=data["company"],
+            role_title=data["role"],
+            location=data.get("location", ""),
+            required_skills=data.get("required_skills", []),
+            nice_to_have_skills=[],
+            responsibilities=[],
+            culture_signals=[],
+            red_flags=data.get("red_flags", []),
+            raw_text=data.get("raw_text", ""),
+        )
+
+        cv_chunks = data.get("cv_chunks", [])
+        answer = await regenerate_section(
+            question=request.question,
+            current_answer=request.current_answer,
+            feedback=request.feedback,
+            job=job,
+            cv_chunks=cv_chunks,
+        )
+
+        return JSONResponse(content={"answer": answer})
 
     except Exception as e:
         traceback.print_exc()
