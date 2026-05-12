@@ -76,7 +76,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .red-flag-item i{margin-top:2px;flex-shrink:0;color:#BA7517;font-size:14px}
 .tab-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;overflow:hidden}
 .tab-bar{display:flex;border-bottom:0.5px solid #f0f0f0;background:#fafafa}
-.tab{flex:1;padding:13px 16px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-0.5px;font-size:13px;font-family:inherit;color:#888;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tab{flex:1;padding:11px 10px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-0.5px;font-size:12px;font-family:inherit;color:#888;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:5px}
 .tab:hover{color:#1a1a1a;background:#f4f4f4}
 .tab.active{color:#0F6E56;border-bottom-color:#1D9E75;font-weight:500;background:#fff}
 .tab-body{padding:24px}
@@ -100,15 +100,10 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .brief-text{font-size:13px;line-height:1.9}
 .back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;font-size:13px;color:#888;cursor:pointer;font-family:inherit;padding:0;transition:color 0.15s}
 .back-btn:hover{color:#1a1a1a}
-
-/* ── Cover letter sentence rendering ── */
 .letter-body{font-size:13px;line-height:1.9;color:#1a1a1a;user-select:none}
-.letter-sentence{display:inline;cursor:pointer;border-radius:3px;padding:1px 2px;transition:background 0.1s;position:relative}
+.letter-sentence{display:inline;cursor:pointer;border-radius:3px;padding:1px 2px;transition:background 0.1s}
 .letter-sentence:hover{background:#f0fdf8}
 .letter-sentence.selected{background:#C8F0E2;color:#0a4a38}
-.letter-hint{font-size:11px;color:#aaa;margin-bottom:10px;display:flex;align-items:center;gap:5px}
-
-/* ── Feedback bar ── */
 .feedback-bar{margin-top:20px;border-top:0.5px solid #f0f0f0;padding-top:16px}
 .feedback-mode-row{display:flex;gap:6px;margin-bottom:12px}
 .feedback-mode-btn{background:none;border:0.5px solid #e5e5e5;border-radius:6px;font-size:12px;padding:5px 12px;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s}
@@ -122,6 +117,30 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .selection-hint{font-size:12px;color:#0F6E56;background:#E1F5EE;border:0.5px solid #9FE1CB;border-radius:6px;padding:6px 12px;margin-bottom:10px;display:none}
 .selection-hint.visible{display:block}
 .clear-selection-btn{background:none;border:none;font-size:12px;color:#aaa;cursor:pointer;font-family:inherit;margin-left:8px;text-decoration:underline}
+
+/* ── Written sections ── */
+.section-input-row{display:flex;gap:8px;margin-bottom:20px}
+.section-question-input{flex:1;min-height:72px;border:0.5px solid #e5e5e5;border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;background:#fafafa;color:#1a1a1a;outline:none;resize:vertical;line-height:1.5;transition:all 0.15s}
+.section-question-input:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff}
+.generate-btn{height:36px;padding:0 16px;background:#1D9E75;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;font-family:inherit;transition:opacity 0.15s;flex-shrink:0;align-self:flex-end}
+.generate-btn:hover{opacity:0.88}
+.generate-btn:disabled{opacity:0.4;cursor:not-allowed}
+.sections-list{display:flex;flex-direction:column;gap:16px}
+.section-card{border:0.5px solid #e5e5e5;border-radius:10px;overflow:hidden}
+.section-card-header{padding:12px 16px;background:#fafafa;border-bottom:0.5px solid #f0f0f0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.section-question-text{font-size:13px;font-weight:500;color:#1a1a1a;line-height:1.5;flex:1}
+.section-card-actions{display:flex;gap:6px;flex-shrink:0}
+.section-copy-btn{display:flex;align-items:center;gap:4px;background:none;border:0.5px solid #e5e5e5;border-radius:6px;font-size:11px;padding:4px 10px;cursor:pointer;color:#888;transition:all 0.15s;font-family:inherit}
+.section-copy-btn:hover{border-color:#5DCAA5;color:#0F6E56}
+.section-copy-btn.copied{border-color:#5DCAA5;color:#0F6E56;background:#E1F5EE}
+.section-delete-btn{display:flex;align-items:center;background:none;border:0.5px solid #e5e5e5;border-radius:6px;font-size:11px;padding:4px 8px;cursor:pointer;color:#aaa;transition:all 0.15s;font-family:inherit}
+.section-delete-btn:hover{border-color:#fca5a5;color:#dc2626}
+.section-card-body{padding:16px}
+.section-answer-text{font-size:13px;line-height:1.8;color:#1a1a1a;margin-bottom:14px}
+.section-feedback-row{display:flex;gap:8px;align-items:flex-start;border-top:0.5px solid #f0f0f0;padding-top:12px}
+.section-feedback-input{flex:1;min-height:48px;border:0.5px solid #e5e5e5;border-radius:8px;padding:8px 12px;font-size:12px;font-family:inherit;background:#fafafa;color:#1a1a1a;outline:none;resize:vertical;line-height:1.5;transition:all 0.15s}
+.section-feedback-input:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff}
+.sections-empty{text-align:center;padding:32px 16px;color:#bbb;font-size:13px;border:0.5px dashed #e5e5e5;border-radius:10px}
 </style>
 </head>
 <body>
@@ -139,7 +158,6 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
     </div>
   </div>
 
-  <!-- New run view -->
   <div id="newView">
     <div class="card">
       <div class="input-label">Job posting</div>
@@ -196,14 +214,17 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
       <div class="tab-card">
         <div class="tab-bar">
           <button class="tab active" id="tab-btn-cover" onclick="setTab('cover')">
-            <i class="ti ti-mail" style="font-size:14px" aria-hidden="true"></i>Cover letter
+            <i class="ti ti-mail" style="font-size:13px" aria-hidden="true"></i>Cover letter
           </button>
           <button class="tab" id="tab-btn-notes" onclick="setTab('notes')">
-            <i class="ti ti-list-check" style="font-size:14px" aria-hidden="true"></i>CV notes
+            <i class="ti ti-list-check" style="font-size:13px" aria-hidden="true"></i>CV notes
             <span class="notes-badge" id="notesBadge">0/0</span>
           </button>
           <button class="tab" id="tab-btn-brief" onclick="setTab('brief')">
-            <i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i>Company brief
+            <i class="ti ti-building" style="font-size:13px" aria-hidden="true"></i>Company brief
+          </button>
+          <button class="tab" id="tab-btn-sections" onclick="setTab('sections')">
+            <i class="ti ti-forms" style="font-size:13px" aria-hidden="true"></i>Written sections
           </button>
         </div>
         <div class="tab-body">
@@ -214,12 +235,12 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
             </div>
             <div class="panel-header">
               <span style="font-size:12px;color:#aaa">Click sentences to select · then give feedback below</span>
-              <button class="copy-btn" id="copyBtn" onclick="copyCover('coverLetterBody', 'copyBtn')">
+              <button class="copy-btn" id="copyBtn" onclick="copyCover('coverLetterBody','copyBtn')">
                 <i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy
               </button>
             </div>
             <div class="letter-body" id="coverLetterBody"></div>
-            <div class="feedback-bar" id="coverFeedbackBar">
+            <div class="feedback-bar">
               <div class="selection-hint" id="selectionHint">
                 <span id="selectionCount">0</span> sentence(s) selected
                 <button class="clear-selection-btn" onclick="clearSelection()">clear</button>
@@ -234,7 +255,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
               </div>
               <div class="feedback-input-row">
                 <textarea class="feedback-textarea" id="coverFeedback" placeholder="e.g. make this more specific about the Zafin project..."></textarea>
-                <button class="regen-btn" id="regenBtn" onclick="regenerateCoverLetter()">
+                <button class="regen-btn" id="regenBtn" onclick="regenerateCoverLetter('coverLetterBody','coverFeedback','regenBtn',false)">
                   <i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Regenerate
                 </button>
               </div>
@@ -252,22 +273,31 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
           <div class="tab-panel" id="tab-brief">
             <div class="brief-text" id="briefText"></div>
           </div>
+
+          <div class="tab-panel" id="tab-sections">
+            <div class="section-input-row">
+              <textarea class="section-question-input" id="sectionQuestion" placeholder="Paste the application question here..."></textarea>
+              <button class="generate-btn" id="generateBtn" onclick="generateSection(false)">
+                <i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Generate
+              </button>
+            </div>
+            <div class="sections-list" id="sectionsList">
+              <div class="sections-empty">No sections yet. Paste a question and hit Generate.</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- History list view -->
   <div class="history-view" id="historyView">
     <div id="historyList"></div>
   </div>
 
-  <!-- History detail view -->
   <div id="historyDetail" style="display:none;flex-direction:column;gap:16px">
     <button class="back-btn" onclick="backToHistory()">
       <i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i>Back to history
     </button>
-
     <div class="card">
       <div class="score-row">
         <div class="score-badge">
@@ -279,11 +309,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
           <div class="score-role" id="detailRole">—</div>
         </div>
         <select class="status-select" id="detailStatus" onchange="updateDetailStatus()">
-          <option>To Apply</option>
-          <option>Applied</option>
-          <option>Interviewing</option>
-          <option>Rejected</option>
-          <option>Offer</option>
+          <option>To Apply</option><option>Applied</option><option>Interviewing</option><option>Rejected</option><option>Offer</option>
         </select>
       </div>
       <div id="detailRedFlagsWrap" style="display:none">
@@ -296,14 +322,17 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
     <div class="tab-card">
       <div class="tab-bar">
         <button class="tab active" id="dtab-btn-cover" onclick="setDetailTab('cover')">
-          <i class="ti ti-mail" style="font-size:14px" aria-hidden="true"></i>Cover letter
+          <i class="ti ti-mail" style="font-size:13px" aria-hidden="true"></i>Cover letter
         </button>
         <button class="tab" id="dtab-btn-notes" onclick="setDetailTab('notes')">
-          <i class="ti ti-list-check" style="font-size:14px" aria-hidden="true"></i>CV notes
+          <i class="ti ti-list-check" style="font-size:13px" aria-hidden="true"></i>CV notes
           <span class="notes-badge" id="detailNotesBadge">0/0</span>
         </button>
         <button class="tab" id="dtab-btn-brief" onclick="setDetailTab('brief')">
-          <i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i>Company brief
+          <i class="ti ti-building" style="font-size:13px" aria-hidden="true"></i>Company brief
+        </button>
+        <button class="tab" id="dtab-btn-sections" onclick="setDetailTab('sections')">
+          <i class="ti ti-forms" style="font-size:13px" aria-hidden="true"></i>Written sections
         </button>
       </div>
       <div class="tab-body">
@@ -314,12 +343,12 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
           </div>
           <div class="panel-header">
             <span style="font-size:12px;color:#aaa">Click sentences to select · then give feedback below</span>
-            <button class="copy-btn" id="detailCopyBtn" onclick="copyCover('detailLetterBody', 'detailCopyBtn')">
+            <button class="copy-btn" id="detailCopyBtn" onclick="copyCover('detailLetterBody','detailCopyBtn')">
               <i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy
             </button>
           </div>
           <div class="letter-body" id="detailLetterBody"></div>
-          <div class="feedback-bar" id="detailFeedbackBar">
+          <div class="feedback-bar">
             <div class="selection-hint" id="detailSelectionHint">
               <span id="detailSelectionCount">0</span> sentence(s) selected
               <button class="clear-selection-btn" onclick="clearDetailSelection()">clear</button>
@@ -334,7 +363,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
             </div>
             <div class="feedback-input-row">
               <textarea class="feedback-textarea" id="detailFeedback" placeholder="e.g. make this more specific about the Zafin project..."></textarea>
-              <button class="regen-btn" id="detailRegenBtn" onclick="regenerateDetailCoverLetter()">
+              <button class="regen-btn" id="detailRegenBtn" onclick="regenerateCoverLetter('detailLetterBody','detailFeedback','detailRegenBtn',true)">
                 <i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Regenerate
               </button>
             </div>
@@ -352,459 +381,297 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
         <div class="tab-panel" id="dtab-brief">
           <div class="brief-text" id="detailBriefText"></div>
         </div>
+
+        <div class="tab-panel" id="dtab-sections">
+          <div class="section-input-row">
+            <textarea class="section-question-input" id="detailSectionQuestion" placeholder="Paste the application question here..."></textarea>
+            <button class="generate-btn" id="detailGenerateBtn" onclick="generateSection(true)">
+              <i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Generate
+            </button>
+          </div>
+          <div class="sections-list" id="detailSectionsList">
+            <div class="sections-empty">No sections yet. Paste a question and hit Generate.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
 <script>
-// ── State ──
-let mode = 'url'
-let checked = new Set()
-let detailChecked = new Set()
-let currentDetailId = null
-let selectedSentences = new Set()
-let detailSelectedSentences = new Set()
-let feedbackMode = 'sentence'
-let detailFeedbackMode = 'sentence'
-let currentAppId = null  // app id for newly run result (no history id yet — use -1 sentinel)
+let mode='url', checked=new Set(), detailChecked=new Set()
+let currentDetailId=null, currentAppId=null
+let selectedSentences=new Set(), detailSelectedSentences=new Set()
+let feedbackMode='sentence', detailFeedbackMode='sentence'
+let sections=[], detailSections=[]
 
-// ── Sentence rendering ──
-function splitSentences(text) {
-  return text.match(/[^.!?]+[.!?]+[\s]*/g) || [text]
+// ── Sentences ──
+function splitSentences(text){return text.match(/[^.!?]+[.!?]+[\s]*/g)||[text]}
+
+function renderLetter(containerId,text,selSet,toggleFn){
+  const el=document.getElementById(containerId)
+  const sentences=splitSentences(text)
+  el.innerHTML=sentences.map((s,i)=>
+    '<span class="letter-sentence'+(selSet.has(i)?' selected':'')+'" data-si="'+i+'" onclick="'+toggleFn+'('+i+')">' +s.trim()+' </span>'
+  ).join('')
 }
 
-function renderLetter(containerId, text, selectedSet, onToggle) {
-  const container = document.getElementById(containerId)
-  const sentences = splitSentences(text)
-  container.innerHTML = sentences.map((s, i) => {
-    const sel = selectedSet.has(i) ? ' selected' : ''
-    return '<span class="letter-sentence' + sel + '" data-si="' + i + '" onclick="' + onToggle + '(' + i + ')">' + s.trim() + ' </span>'
-  }).join('')
-  return sentences
+function toggleSentence(i){
+  if(selectedSentences.has(i))selectedSentences.delete(i); else selectedSentences.add(i)
+  document.querySelector('#coverLetterBody [data-si="'+i+'"]').classList.toggle('selected',selectedSentences.has(i))
+  updateHint('selectionHint','selectionCount',selectedSentences)
+}
+function toggleDetailSentence(i){
+  if(detailSelectedSentences.has(i))detailSelectedSentences.delete(i); else detailSelectedSentences.add(i)
+  document.querySelector('#detailLetterBody [data-si="'+i+'"]').classList.toggle('selected',detailSelectedSentences.has(i))
+  updateHint('detailSelectionHint','detailSelectionCount',detailSelectedSentences)
+}
+function updateHint(hid,cid,set){
+  document.getElementById(cid).textContent=set.size
+  document.getElementById(hid).classList.toggle('visible',set.size>0)
+}
+function clearSelection(){selectedSentences.clear();document.querySelectorAll('#coverLetterBody .letter-sentence').forEach(e=>e.classList.remove('selected'));updateHint('selectionHint','selectionCount',selectedSentences)}
+function clearDetailSelection(){detailSelectedSentences.clear();document.querySelectorAll('#detailLetterBody .letter-sentence').forEach(e=>e.classList.remove('selected'));updateHint('detailSelectionHint','detailSelectionCount',detailSelectedSentences)}
+function setFeedbackMode(m){feedbackMode=m;document.getElementById('fmSentence').classList.toggle('active',m==='sentence');document.getElementById('fmWhole').classList.toggle('active',m==='whole')}
+function setDetailFeedbackMode(m){detailFeedbackMode=m;document.getElementById('dfmSentence').classList.toggle('active',m==='sentence');document.getElementById('dfmWhole').classList.toggle('active',m==='whole')}
+
+// ── Cover letter regeneration ──
+async function regenerateCoverLetter(bodyId,feedbackId,btnId,isDetail){
+  const feedback=document.getElementById(feedbackId).value.trim()
+  if(!feedback)return
+  const appId=isDetail?currentDetailId:currentAppId
+  if(!appId){alert('Run the pipeline first.');return}
+  const selSet=isDetail?detailSelectedSentences:selectedSentences
+  const fm=isDetail?detailFeedbackMode:feedbackMode
+  const currentLetter=Array.from(document.querySelectorAll('#'+bodyId+' .letter-sentence')).map(e=>e.textContent.trim()).join(' ')
+  const selectedIndices=fm==='sentence'?Array.from(selSet):[]
+  const btn=document.getElementById(btnId)
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader" style="font-size:13px;animation:spin 1s linear infinite" aria-hidden="true"></i>Regenerating'
+  try{
+    const res=await fetch('/regenerate-cover-letter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({application_id:appId,feedback,selected_indices:selectedIndices,current_letter:currentLetter})})
+    const data=await res.json()
+    if(!res.ok)throw new Error(data.error||'Failed')
+    if(isDetail){detailSelectedSentences.clear();renderLetter(bodyId,data.cover_letter,detailSelectedSentences,'toggleDetailSentence');updateHint('detailSelectionHint','detailSelectionCount',detailSelectedSentences)}
+    else{selectedSentences.clear();renderLetter(bodyId,data.cover_letter,selectedSentences,'toggleSentence');updateHint('selectionHint','selectionCount',selectedSentences)}
+    document.getElementById(feedbackId).value=''
+  }catch(e){alert('Error: '+e.message)}
+  finally{btn.disabled=false;btn.innerHTML='<i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Regenerate'}
 }
 
-function toggleSentence(i) {
-  if (selectedSentences.has(i)) selectedSentences.delete(i)
-  else selectedSentences.add(i)
-  const el = document.querySelector('#coverLetterBody [data-si="' + i + '"]')
-  if (el) el.classList.toggle('selected', selectedSentences.has(i))
-  updateSelectionHint('selectionHint', 'selectionCount', selectedSentences)
-}
-
-function toggleDetailSentence(i) {
-  if (detailSelectedSentences.has(i)) detailSelectedSentences.delete(i)
-  else detailSelectedSentences.add(i)
-  const el = document.querySelector('#detailLetterBody [data-si="' + i + '"]')
-  if (el) el.classList.toggle('selected', detailSelectedSentences.has(i))
-  updateSelectionHint('detailSelectionHint', 'detailSelectionCount', detailSelectedSentences)
-}
-
-function updateSelectionHint(hintId, countId, selectedSet) {
-  const hint = document.getElementById(hintId)
-  document.getElementById(countId).textContent = selectedSet.size
-  hint.classList.toggle('visible', selectedSet.size > 0)
-}
-
-function clearSelection() {
-  selectedSentences.clear()
-  document.querySelectorAll('#coverLetterBody .letter-sentence').forEach(el => el.classList.remove('selected'))
-  updateSelectionHint('selectionHint', 'selectionCount', selectedSentences)
-}
-
-function clearDetailSelection() {
-  detailSelectedSentences.clear()
-  document.querySelectorAll('#detailLetterBody .letter-sentence').forEach(el => el.classList.remove('selected'))
-  updateSelectionHint('detailSelectionHint', 'detailSelectionCount', detailSelectedSentences)
-}
-
-function setFeedbackMode(m) {
-  feedbackMode = m
-  document.getElementById('fmSentence').classList.toggle('active', m === 'sentence')
-  document.getElementById('fmWhole').classList.toggle('active', m === 'whole')
-  document.getElementById('coverFeedback').placeholder = m === 'sentence'
-    ? 'Feedback for selected sentences...'
-    : 'Feedback for the whole letter...'
-}
-
-function setDetailFeedbackMode(m) {
-  detailFeedbackMode = m
-  document.getElementById('dfmSentence').classList.toggle('active', m === 'sentence')
-  document.getElementById('dfmWhole').classList.toggle('active', m === 'whole')
-  document.getElementById('detailFeedback').placeholder = m === 'sentence'
-    ? 'Feedback for selected sentences...'
-    : 'Feedback for the whole letter...'
-}
-
-// ── Cover letter regeneration (new run view) ──
-async function regenerateCoverLetter() {
-  const feedback = document.getElementById('coverFeedback').value.trim()
-  if (!feedback) return
-
-  const appId = currentAppId
-  if (!appId) {
-    alert('Save the application first by running the pipeline.')
-    return
-  }
-
-  const currentLetter = Array.from(document.querySelectorAll('#coverLetterBody .letter-sentence'))
-    .map(el => el.textContent.trim()).join(' ')
-
-  const selectedIndices = feedbackMode === 'sentence' ? Array.from(selectedSentences) : []
-
-  const btn = document.getElementById('regenBtn')
-  btn.disabled = true
-  btn.innerHTML = '<i class="ti ti-loader" style="font-size:13px;animation:spin 1s linear infinite" aria-hidden="true"></i>Regenerating'
-
-  try {
-    const res = await fetch('/regenerate-cover-letter', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        application_id: appId,
-        feedback,
-        selected_indices: selectedIndices,
-        current_letter: currentLetter,
-      })
-    })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.error || 'Regeneration failed')
-
-    selectedSentences.clear()
-    renderLetter('coverLetterBody', data.cover_letter, selectedSentences, 'toggleSentence')
-    updateSelectionHint('selectionHint', 'selectionCount', selectedSentences)
-    document.getElementById('coverFeedback').value = ''
-  } catch(e) {
-    alert('Error: ' + e.message)
-  } finally {
-    btn.disabled = false
-    btn.innerHTML = '<i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Regenerate'
-  }
-}
-
-// ── Cover letter regeneration (history detail view) ──
-async function regenerateDetailCoverLetter() {
-  const feedback = document.getElementById('detailFeedback').value.trim()
-  if (!feedback) return
-  if (!currentDetailId) return
-
-  const currentLetter = Array.from(document.querySelectorAll('#detailLetterBody .letter-sentence'))
-    .map(el => el.textContent.trim()).join(' ')
-
-  const selectedIndices = detailFeedbackMode === 'sentence' ? Array.from(detailSelectedSentences) : []
-
-  const btn = document.getElementById('detailRegenBtn')
-  btn.disabled = true
-  btn.innerHTML = '<i class="ti ti-loader" style="font-size:13px;animation:spin 1s linear infinite" aria-hidden="true"></i>Regenerating'
-
-  try {
-    const res = await fetch('/regenerate-cover-letter', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        application_id: currentDetailId,
-        feedback,
-        selected_indices: selectedIndices,
-        current_letter: currentLetter,
-      })
-    })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.error || 'Regeneration failed')
-
-    detailSelectedSentences.clear()
-    renderLetter('detailLetterBody', data.cover_letter, detailSelectedSentences, 'toggleDetailSentence')
-    updateSelectionHint('detailSelectionHint', 'detailSelectionCount', detailSelectedSentences)
-    document.getElementById('detailFeedback').value = ''
-  } catch(e) {
-    alert('Error: ' + e.message)
-  } finally {
-    btn.disabled = false
-    btn.innerHTML = '<i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Regenerate'
-  }
-}
-
-// ── Copy button ──
-function copyCover(bodyId, btnId) {
-  const text = Array.from(document.querySelectorAll('#' + bodyId + ' .letter-sentence'))
-    .map(el => el.textContent.trim()).join(' ')
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById(btnId)
-    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px" aria-hidden="true"></i>Copied'
-    btn.classList.add('copied')
-    setTimeout(() => {
-      btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy'
-      btn.classList.remove('copied')
-    }, 2000)
+// ── Copy ──
+function copyCover(bodyId,btnId){
+  const text=Array.from(document.querySelectorAll('#'+bodyId+' .letter-sentence')).map(e=>e.textContent.trim()).join(' ')
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById(btnId)
+    btn.innerHTML='<i class="ti ti-check" style="font-size:14px" aria-hidden="true"></i>Copied';btn.classList.add('copied')
+    setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy';btn.classList.remove('copied')},2000)
   })
+}
+
+// ── Written sections ──
+function renderSections(listId,sectionsArr,isDetail){
+  const el=document.getElementById(listId)
+  if(!sectionsArr.length){el.innerHTML='<div class="sections-empty">No sections yet. Paste a question and hit Generate.</div>';return}
+  el.innerHTML=sectionsArr.map((s,i)=>`
+    <div class="section-card" id="${isDetail?'d':''}sc-${i}">
+      <div class="section-card-header">
+        <div class="section-question-text">${s.question}</div>
+        <div class="section-card-actions">
+          <button class="section-copy-btn" id="${isDetail?'d':''}scp-${i}" onclick="copySection(${i},${isDetail})">
+            <i class="ti ti-copy" style="font-size:12px" aria-hidden="true"></i>Copy
+          </button>
+          <button class="section-delete-btn" onclick="deleteSection(${i},${isDetail})">
+            <i class="ti ti-x" style="font-size:12px" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <div class="section-card-body">
+        <div class="section-answer-text" id="${isDetail?'d':''}sa-${i}">${s.answer}</div>
+        <div class="section-feedback-row">
+          <textarea class="section-feedback-input" id="${isDetail?'d':''}sf-${i}" placeholder="Feedback to revise this answer..."></textarea>
+          <button class="regen-btn" onclick="regenSection(${i},${isDetail})">
+            <i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Revise
+          </button>
+        </div>
+      </div>
+    </div>`).join('')
+}
+
+async function generateSection(isDetail){
+  const qId=isDetail?'detailSectionQuestion':'sectionQuestion'
+  const btnId=isDetail?'detailGenerateBtn':'generateBtn'
+  const question=document.getElementById(qId).value.trim()
+  if(!question)return
+  const appId=isDetail?currentDetailId:currentAppId
+  if(!appId){alert('Run the pipeline first.');return}
+  const btn=document.getElementById(btnId)
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader" style="font-size:13px;animation:spin 1s linear infinite" aria-hidden="true"></i>Generating'
+  try{
+    const res=await fetch('/generate-section',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({application_id:appId,question})})
+    const data=await res.json()
+    if(!res.ok)throw new Error(data.error||'Failed')
+    const arr=isDetail?detailSections:sections
+    arr.push({question,answer:data.answer})
+    renderSections(isDetail?'detailSectionsList':'sectionsList',arr,isDetail)
+    document.getElementById(qId).value=''
+  }catch(e){alert('Error: '+e.message)}
+  finally{btn.disabled=false;btn.innerHTML='<i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Generate'}
+}
+
+async function regenSection(i,isDetail){
+  const prefix=isDetail?'d':''
+  const feedback=document.getElementById(prefix+'sf-'+i).value.trim()
+  if(!feedback)return
+  const appId=isDetail?currentDetailId:currentAppId
+  const arr=isDetail?detailSections:sections
+  const btn=document.querySelector('#'+(isDetail?'d':'')+'sc-'+i+' .regen-btn')
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader" style="font-size:13px;animation:spin 1s linear infinite" aria-hidden="true"></i>Revising'
+  try{
+    const res=await fetch('/regenerate-section',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({application_id:appId,question:arr[i].question,current_answer:arr[i].answer,feedback})})
+    const data=await res.json()
+    if(!res.ok)throw new Error(data.error||'Failed')
+    arr[i].answer=data.answer
+    document.getElementById(prefix+'sa-'+i).textContent=data.answer
+    document.getElementById(prefix+'sf-'+i).value=''
+  }catch(e){alert('Error: '+e.message)}
+  finally{btn.disabled=false;btn.innerHTML='<i class="ti ti-sparkles" style="font-size:13px" aria-hidden="true"></i>Revise'}
+}
+
+function copySection(i,isDetail){
+  const prefix=isDetail?'d':''
+  const arr=isDetail?detailSections:sections
+  navigator.clipboard.writeText(arr[i].answer).then(()=>{
+    const btn=document.getElementById(prefix+'scp-'+i)
+    btn.innerHTML='<i class="ti ti-check" style="font-size:12px" aria-hidden="true"></i>Copied';btn.classList.add('copied')
+    setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy" style="font-size:12px" aria-hidden="true"></i>Copy';btn.classList.remove('copied')},2000)
+  })
+}
+
+function deleteSection(i,isDetail){
+  const arr=isDetail?detailSections:sections
+  arr.splice(i,1)
+  renderSections(isDetail?'detailSectionsList':'sectionsList',arr,isDetail)
 }
 
 // ── View switching ──
-function showNew() {
-  document.getElementById('newView').style.display = 'block'
-  document.getElementById('historyView').classList.remove('visible')
-  document.getElementById('historyDetail').style.display = 'none'
-  document.getElementById('newBtn').classList.add('active')
-  document.getElementById('historyBtn').classList.remove('active')
-}
-
-function showHistory() {
-  document.getElementById('newView').style.display = 'none'
-  document.getElementById('historyDetail').style.display = 'none'
-  document.getElementById('historyView').classList.add('visible')
-  document.getElementById('historyBtn').classList.add('active')
-  document.getElementById('newBtn').classList.remove('active')
-  loadHistory()
-}
-
-function backToHistory() {
-  document.getElementById('historyDetail').style.display = 'none'
-  document.getElementById('historyView').classList.add('visible')
-}
+function showNew(){document.getElementById('newView').style.display='block';document.getElementById('historyView').classList.remove('visible');document.getElementById('historyDetail').style.display='none';document.getElementById('newBtn').classList.add('active');document.getElementById('historyBtn').classList.remove('active')}
+function showHistory(){document.getElementById('newView').style.display='none';document.getElementById('historyDetail').style.display='none';document.getElementById('historyView').classList.add('visible');document.getElementById('historyBtn').classList.add('active');document.getElementById('newBtn').classList.remove('active');loadHistory()}
+function backToHistory(){document.getElementById('historyDetail').style.display='none';document.getElementById('historyView').classList.add('visible')}
 
 // ── History ──
-async function loadHistory() {
-  const container = document.getElementById('historyList')
-  container.innerHTML = '<div class="history-empty">Loading...</div>'
-  try {
-    const res = await fetch('/applications')
-    const apps = await res.json()
-    if (!apps.length) {
-      container.innerHTML = '<div class="history-empty">No applications yet. Run your first one.</div>'
-      return
-    }
-    container.innerHTML = apps.map(a => {
-      const sc = a.fit_score >= 7 ? 'high' : a.fit_score >= 4 ? 'mid' : 'low'
-      const date = new Date(a.created_at).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })
-      return '<div class="history-item" onclick="loadDetail(' + a.id + ')">' +
-        '<div class="history-score ' + sc + '">' + a.fit_score + '</div>' +
-        '<div class="history-meta"><div class="history-company">' + a.company + '</div>' +
-        '<div class="history-role">' + a.role + '</div></div>' +
-        '<div class="history-right"><span class="history-date">' + date + '</span>' +
-        '<select class="status-select" data-id="' + a.id + '" onclick="event.stopPropagation()" onchange="updateStatus(event,' + a.id + ')">' +
-        ['To Apply','Applied','Interviewing','Rejected','Offer'].map(s => '<option' + (s===a.status?' selected':'') + '>' + s + '</option>').join('') +
+async function loadHistory(){
+  const c=document.getElementById('historyList');c.innerHTML='<div class="history-empty">Loading...</div>'
+  try{
+    const apps=await(await fetch('/applications')).json()
+    if(!apps.length){c.innerHTML='<div class="history-empty">No applications yet.</div>';return}
+    c.innerHTML=apps.map(a=>{
+      const sc=a.fit_score>=7?'high':a.fit_score>=4?'mid':'low'
+      const date=new Date(a.created_at).toLocaleDateString('en-CA',{month:'short',day:'numeric'})
+      return '<div class="history-item" onclick="loadDetail('+a.id+')">'+
+        '<div class="history-score '+sc+'">'+a.fit_score+'</div>'+
+        '<div class="history-meta"><div class="history-company">'+a.company+'</div><div class="history-role">'+a.role+'</div></div>'+
+        '<div class="history-right"><span class="history-date">'+date+'</span>'+
+        '<select class="status-select" onclick="event.stopPropagation()" onchange="updateStatus(event,'+a.id+')">'+
+        ['To Apply','Applied','Interviewing','Rejected','Offer'].map(s=>'<option'+(s===a.status?' selected':'')+'>'+s+'</option>').join('')+
         '</select></div></div>'
     }).join('')
-  } catch(e) {
-    container.innerHTML = '<div class="history-empty">Could not load history.</div>'
-  }
+  }catch(e){c.innerHTML='<div class="history-empty">Could not load history.</div>'}
 }
 
-async function updateStatus(event, id) {
-  await fetch('/applications/' + id + '/status', {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ status: event.target.value })
-  })
-}
+async function updateStatus(event,id){await fetch('/applications/'+id+'/status',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:event.target.value})})}
 
-async function loadDetail(id) {
-  currentDetailId = id
-  detailChecked.clear()
-  detailSelectedSentences.clear()
-
-  const res = await fetch('/applications/' + id)
-  const data = await res.json()
-
+async function loadDetail(id){
+  currentDetailId=id;detailChecked.clear();detailSelectedSentences.clear();detailSections=[]
+  const data=await(await fetch('/applications/'+id)).json()
   document.getElementById('historyView').classList.remove('visible')
-  document.getElementById('historyDetail').style.display = 'flex'
-
-  const s = data.fit_score
-  const sEl = document.getElementById('detailScoreNum')
-  sEl.textContent = s
-  sEl.className = 'score-num ' + (s>=7?'high':s>=4?'mid':'low')
-  document.getElementById('detailCompany').textContent = data.company
-  document.getElementById('detailRole').textContent = data.role
-  document.getElementById('detailStatus').value = data.status
-
-  if (data.red_flags && data.red_flags.length) {
-    document.getElementById('detailRedFlagsWrap').style.display = 'block'
-    document.getElementById('detailRedFlags').innerHTML = data.red_flags
-      .map(f => '<div class="red-flag-item"><i class="ti ti-alert-triangle" aria-hidden="true"></i>' + f + '</div>').join('')
-  } else {
-    document.getElementById('detailRedFlagsWrap').style.display = 'none'
-  }
-
-  if (data.quality_flags && data.quality_flags.length) {
-    document.getElementById('detailFlagBanner').style.display = 'flex'
-    document.getElementById('detailFlagText').textContent = data.quality_flags.join(' · ')
-  } else {
-    document.getElementById('detailFlagBanner').style.display = 'none'
-  }
-
-  renderLetter('detailLetterBody', data.cover_letter, detailSelectedSentences, 'toggleDetailSentence')
-  updateSelectionHint('detailSelectionHint', 'detailSelectionCount', detailSelectedSentences)
-  document.getElementById('detailFeedback').value = ''
-
-  const total = data.cv_notes.length
-  detailChecked.clear()
-  document.getElementById('detailNotesList').innerHTML = data.cv_notes.map((n, i) =>
-    '<li class="note-item" data-di="' + i + '" onclick="toggleDetailNote(' + i + ')">' +
-    '<div class="note-cb"></div><div class="note-text">' + n + '</div></li>'
-  ).join('')
-  document.getElementById('detailNotesProgress').textContent = '0/' + total + ' done'
-  document.getElementById('detailNotesBadge').textContent = '0/' + total
-
-  document.getElementById('detailBriefText').textContent = data.company_brief
+  document.getElementById('historyDetail').style.display='flex'
+  const s=data.fit_score,sEl=document.getElementById('detailScoreNum')
+  sEl.textContent=s;sEl.className='score-num '+(s>=7?'high':s>=4?'mid':'low')
+  document.getElementById('detailCompany').textContent=data.company
+  document.getElementById('detailRole').textContent=data.role
+  document.getElementById('detailStatus').value=data.status
+  if(data.red_flags&&data.red_flags.length){document.getElementById('detailRedFlagsWrap').style.display='block';document.getElementById('detailRedFlags').innerHTML=data.red_flags.map(f=>'<div class="red-flag-item"><i class="ti ti-alert-triangle" aria-hidden="true"></i>'+f+'</div>').join('')}
+  else document.getElementById('detailRedFlagsWrap').style.display='none'
+  if(data.quality_flags&&data.quality_flags.length){document.getElementById('detailFlagBanner').style.display='flex';document.getElementById('detailFlagText').textContent=data.quality_flags.join(' · ')}
+  else document.getElementById('detailFlagBanner').style.display='none'
+  renderLetter('detailLetterBody',data.cover_letter,detailSelectedSentences,'toggleDetailSentence')
+  updateHint('detailSelectionHint','detailSelectionCount',detailSelectedSentences)
+  document.getElementById('detailFeedback').value=''
+  const total=data.cv_notes.length
+  document.getElementById('detailNotesList').innerHTML=data.cv_notes.map((n,i)=>'<li class="note-item" data-di="'+i+'" onclick="toggleDetailNote('+i+')"><div class="note-cb"></div><div class="note-text">'+n+'</div></li>').join('')
+  document.getElementById('detailNotesProgress').textContent='0/'+total+' done'
+  document.getElementById('detailNotesBadge').textContent='0/'+total
+  document.getElementById('detailBriefText').textContent=data.company_brief
+  renderSections('detailSectionsList',detailSections,true)
   setDetailTab('cover')
 }
 
-async function updateDetailStatus() {
-  await fetch('/applications/' + currentDetailId + '/status', {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ status: document.getElementById('detailStatus').value })
-  })
-}
+async function updateDetailStatus(){await fetch('/applications/'+currentDetailId+'/status',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:document.getElementById('detailStatus').value})})}
 
 // ── Tabs ──
-function setTab(t) {
-  ;['cover','notes','brief'].forEach(name => {
-    document.getElementById('tab-'+name).classList.toggle('active', name===t)
-    document.getElementById('tab-btn-'+name).classList.toggle('active', name===t)
-  })
-}
-
-function setDetailTab(t) {
-  ;['cover','notes','brief'].forEach(name => {
-    document.getElementById('dtab-'+name).classList.toggle('active', name===t)
-    document.getElementById('dtab-btn-'+name).classList.toggle('active', name===t)
-  })
-}
+function setTab(t){;['cover','notes','brief','sections'].forEach(n=>{document.getElementById('tab-'+n).classList.toggle('active',n===t);document.getElementById('tab-btn-'+n).classList.toggle('active',n===t)})}
+function setDetailTab(t){;['cover','notes','brief','sections'].forEach(n=>{document.getElementById('dtab-'+n).classList.toggle('active',n===t);document.getElementById('dtab-btn-'+n).classList.toggle('active',n===t)})}
 
 // ── Notes ──
-function toggleNote(i) {
-  const item = document.querySelector('[data-i="' + i + '"]')
-  const cb = item.querySelector('.note-cb')
-  if (checked.has(i)) { checked.delete(i); item.classList.remove('checked'); cb.innerHTML='' }
-  else { checked.add(i); item.classList.add('checked'); cb.innerHTML='<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>' }
-  const total = document.querySelectorAll('[data-i]').length
-  document.getElementById('notesProgress').textContent = checked.size+'/'+total+' done'
-  document.getElementById('notesBadge').textContent = checked.size+'/'+total
-}
-
-function toggleDetailNote(i) {
-  const item = document.querySelector('[data-di="' + i + '"]')
-  const cb = item.querySelector('.note-cb')
-  if (detailChecked.has(i)) { detailChecked.delete(i); item.classList.remove('checked'); cb.innerHTML='' }
-  else { detailChecked.add(i); item.classList.add('checked'); cb.innerHTML='<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>' }
-  const total = document.querySelectorAll('[data-di]').length
-  document.getElementById('detailNotesProgress').textContent = detailChecked.size+'/'+total+' done'
-  document.getElementById('detailNotesBadge').textContent = detailChecked.size+'/'+total
-}
+function toggleNote(i){const item=document.querySelector('[data-i="'+i+'"]'),cb=item.querySelector('.note-cb');if(checked.has(i)){checked.delete(i);item.classList.remove('checked');cb.innerHTML=''}else{checked.add(i);item.classList.add('checked');cb.innerHTML='<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>'};const t=document.querySelectorAll('[data-i]').length;document.getElementById('notesProgress').textContent=checked.size+'/'+t+' done';document.getElementById('notesBadge').textContent=checked.size+'/'+t}
+function toggleDetailNote(i){const item=document.querySelector('[data-di="'+i+'"]'),cb=item.querySelector('.note-cb');if(detailChecked.has(i)){detailChecked.delete(i);item.classList.remove('checked');cb.innerHTML=''}else{detailChecked.add(i);item.classList.add('checked');cb.innerHTML='<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>'};const t=document.querySelectorAll('[data-di]').length;document.getElementById('detailNotesProgress').textContent=detailChecked.size+'/'+t+' done';document.getElementById('detailNotesBadge').textContent=detailChecked.size+'/'+t}
 
 // ── Agent pills ──
-function setAgent(id, state) {
-  const el = document.getElementById(id)
-  el.className = 'agent-pill ' + state
-  const i = el.querySelector('i')
-  if (state==='running') i.className='ti ti-loader'
-  else if (state==='done') i.className='ti ti-circle-check'
-  else i.className='ti ti-circle'
-}
+function setAgent(id,state){const el=document.getElementById(id);el.className='agent-pill '+state;const i=el.querySelector('i');if(state==='running')i.className='ti ti-loader';else if(state==='done')i.className='ti ti-circle-check';else i.className='ti ti-circle'}
 
 // ── Mode ──
-function setMode(m) {
-  mode = m
-  document.getElementById('urlInput').style.display = m==='url'?'block':'none'
-  document.getElementById('textInput').style.display = m==='text'?'block':'none'
-  document.getElementById('urlBtn').classList.toggle('active', m==='url')
-  document.getElementById('textBtn').classList.toggle('active', m==='text')
-}
+function setMode(m){mode=m;document.getElementById('urlInput').style.display=m==='url'?'block':'none';document.getElementById('textInput').style.display=m==='text'?'block':'none';document.getElementById('urlBtn').classList.toggle('active',m==='url');document.getElementById('textBtn').classList.toggle('active',m==='text')}
 
 // ── Render results ──
-function renderResults(data, appId) {
-  currentAppId = appId || null
-
-  const s = data.fit_score
-  const sEl = document.getElementById('scoreNum')
-  sEl.textContent = s
-  sEl.className = 'score-num ' + (s>=7?'high':s>=4?'mid':'low')
-  document.getElementById('scoreCompany').textContent = data.company_name
-  document.getElementById('scoreRole').textContent = data.role_title
-
-  if (data.red_flags && data.red_flags.length) {
-    document.getElementById('redFlagsWrap').style.display = 'block'
-    document.getElementById('redFlags').innerHTML = data.red_flags
-      .map(f => '<div class="red-flag-item"><i class="ti ti-alert-triangle" aria-hidden="true"></i>' + f + '</div>').join('')
-  }
-
-  if (data.quality_flags && data.quality_flags.length) {
-    document.getElementById('outputFlagBanner').style.display = 'flex'
-    document.getElementById('outputFlagText').textContent = data.quality_flags.join(' · ')
-  }
-
+function renderResults(data,appId){
+  currentAppId=appId||null;sections=[]
+  const s=data.fit_score,sEl=document.getElementById('scoreNum')
+  sEl.textContent=s;sEl.className='score-num '+(s>=7?'high':s>=4?'mid':'low')
+  document.getElementById('scoreCompany').textContent=data.company_name
+  document.getElementById('scoreRole').textContent=data.role_title
+  if(data.red_flags&&data.red_flags.length){document.getElementById('redFlagsWrap').style.display='block';document.getElementById('redFlags').innerHTML=data.red_flags.map(f=>'<div class="red-flag-item"><i class="ti ti-alert-triangle" aria-hidden="true"></i>'+f+'</div>').join('')}
+  if(data.quality_flags&&data.quality_flags.length){document.getElementById('outputFlagBanner').style.display='flex';document.getElementById('outputFlagText').textContent=data.quality_flags.join(' · ')}
   selectedSentences.clear()
-  renderLetter('coverLetterBody', data.cover_letter, selectedSentences, 'toggleSentence')
-  updateSelectionHint('selectionHint', 'selectionCount', selectedSentences)
-
+  renderLetter('coverLetterBody',data.cover_letter,selectedSentences,'toggleSentence')
+  updateHint('selectionHint','selectionCount',selectedSentences)
   checked.clear()
-  const list = document.getElementById('notesList')
-  list.innerHTML = data.cv_notes.map((n, i) =>
-    '<li class="note-item" data-i="' + i + '" onclick="toggleNote(' + i + ')">' +
-    '<div class="note-cb"></div><div class="note-text">' + n + '</div></li>'
-  ).join('')
-  const total = data.cv_notes.length
-  document.getElementById('notesProgress').textContent = '0/'+total+' done'
-  document.getElementById('notesBadge').textContent = '0/'+total
-  document.getElementById('briefText').textContent = data.company_brief
+  document.getElementById('notesList').innerHTML=data.cv_notes.map((n,i)=>'<li class="note-item" data-i="'+i+'" onclick="toggleNote('+i+')"><div class="note-cb"></div><div class="note-text">'+n+'</div></li>').join('')
+  const total=data.cv_notes.length
+  document.getElementById('notesProgress').textContent='0/'+total+' done'
+  document.getElementById('notesBadge').textContent='0/'+total
+  document.getElementById('briefText').textContent=data.company_brief
+  renderSections('sectionsList',sections,false)
   document.getElementById('results').classList.add('visible')
   setTab('cover')
 }
 
 // ── Run pipeline ──
-async function runPipeline() {
-  checked.clear()
-  selectedSentences.clear()
+async function runPipeline(){
+  checked.clear();selectedSentences.clear();sections=[]
   document.getElementById('results').classList.remove('visible')
   document.getElementById('errorCard').classList.remove('visible')
-  document.getElementById('redFlagsWrap').style.display = 'none'
-  document.getElementById('outputFlagBanner').style.display = 'none'
-
-  const input = mode==='url'
-    ? document.getElementById('urlInput').value.trim()
-    : document.getElementById('textInput').value.trim()
-
-  if (!input) {
-    const e = document.getElementById('errorCard')
-    e.textContent = mode==='url' ? 'Please enter a job posting URL.' : 'Please paste a job description.'
-    e.classList.add('visible')
-    return
-  }
-
-  const btn = document.getElementById('runBtn')
-  btn.disabled = true
-  btn.innerHTML = '<i class="ti ti-loader" style="font-size:14px;animation:spin 1s linear infinite" aria-hidden="true"></i>Running'
+  document.getElementById('redFlagsWrap').style.display='none'
+  document.getElementById('outputFlagBanner').style.display='none'
+  const input=mode==='url'?document.getElementById('urlInput').value.trim():document.getElementById('textInput').value.trim()
+  if(!input){const e=document.getElementById('errorCard');e.textContent=mode==='url'?'Please enter a job posting URL.':'Please paste a job description.';e.classList.add('visible');return}
+  const btn=document.getElementById('runBtn')
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader" style="font-size:14px;animation:spin 1s linear infinite" aria-hidden="true"></i>Running'
   document.getElementById('progressCard').classList.add('visible')
   setAgent('p1','running')
-  setTimeout(function(){ setAgent('p1','done'); setAgent('p2','running'); setAgent('p3','running'); setAgent('p4','running') }, 4000)
-  setTimeout(function(){ setAgent('p2','done'); setAgent('p3','done'); setAgent('p4','done'); setAgent('p5','running') }, 14000)
-
-  try {
-    const res = await fetch('/run', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(mode==='url' ? {url:input} : {raw_text:input})
-    })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.error || 'Pipeline failed')
+  setTimeout(function(){setAgent('p1','done');setAgent('p2','running');setAgent('p3','running');setAgent('p4','running')},4000)
+  setTimeout(function(){setAgent('p2','done');setAgent('p3','done');setAgent('p4','done');setAgent('p5','running')},14000)
+  try{
+    const res=await fetch('/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(mode==='url'?{url:input}:{raw_text:input})})
+    const data=await res.json()
+    if(!res.ok)throw new Error(data.error||'Pipeline failed')
     setAgent('p5','done')
-    setTimeout(function(){ document.getElementById('progressCard').classList.remove('visible') }, 800)
-
-    // Fetch the latest app id so regeneration works
-    const appsRes = await fetch('/applications')
-    const apps = await appsRes.json()
-    const latestId = apps.length ? apps[0].id : null
-
-    renderResults(data, latestId)
-  } catch(e) {
-    const err = document.getElementById('errorCard')
-    err.textContent = 'Error: ' + e.message
-    err.classList.add('visible')
+    setTimeout(function(){document.getElementById('progressCard').classList.remove('visible')},800)
+    const apps=await(await fetch('/applications')).json()
+    renderResults(data,apps.length?apps[0].id:null)
+  }catch(e){
+    const err=document.getElementById('errorCard');err.textContent='Error: '+e.message;err.classList.add('visible')
     document.getElementById('progressCard').classList.remove('visible')
-  } finally {
-    btn.disabled = false
-    btn.innerHTML = '<i class="ti ti-player-play" style="font-size:14px" aria-hidden="true"></i>Run'
-  }
+  }finally{btn.disabled=false;btn.innerHTML='<i class="ti ti-player-play" style="font-size:14px" aria-hidden="true"></i>Run'}
 }
 </script>
 </body>
