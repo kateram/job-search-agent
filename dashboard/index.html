@@ -10,9 +10,14 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f4f2;min-height:100vh;padding:24px;color:#1a1a1a}
 .page{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 .card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:20px 24px}
-.top-bar{display:flex;align-items:center;padding:14px 24px;background:#fff;border:0.5px solid #e5e5e5;border-radius:12px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#fff;border:0.5px solid #e5e5e5;border-radius:12px}
 .logo{font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px;color:#1a1a1a}
 .logo-dot{width:8px;height:8px;border-radius:50%;background:#5DCAA5}
+.top-actions{display:flex;gap:8px}
+.ghost-btn{background:none;border:0.5px solid #e5e5e5;border-radius:8px;font-size:13px;padding:7px 14px;cursor:pointer;color:#666;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all 0.15s}
+.ghost-btn:hover{border-color:#bbb;color:#1a1a1a}
+.ghost-btn.active{background:#E1F5EE;border-color:#5DCAA5;color:#0F6E56;font-weight:500}
+
 .input-label{font-size:12px;color:#888;margin-bottom:10px;letter-spacing:0.03em}
 .mode-row{display:flex;gap:8px;margin-bottom:14px}
 .mode-btn{background:none;border:0.5px solid #e5e5e5;border-radius:8px;font-size:13px;padding:6px 16px;cursor:pointer;color:#888;transition:all 0.15s;font-family:inherit}
@@ -25,6 +30,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .run-btn{height:40px;padding:0 22px;background:#1D9E75;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;font-family:inherit;transition:opacity 0.15s}
 .run-btn:hover{opacity:0.88}
 .run-btn:disabled{opacity:0.4;cursor:not-allowed}
+
 .progress-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:16px 24px;display:none}
 .progress-card.visible{display:block}
 .progress-label{font-size:12px;color:#888;margin-bottom:12px}
@@ -34,10 +40,34 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .agent-pill.done{border-color:#9FE1CB;color:#085041;background:#E1F5EE}
 .agent-pill.running i{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
 .error-card{background:#fef2f2;border:0.5px solid #fca5a5;border-radius:12px;padding:14px 20px;display:none;font-size:13px;color:#991b1b}
 .error-card.visible{display:block}
+
+/* ── History view ── */
+.history-view{display:none;flex-direction:column;gap:12px}
+.history-view.visible{display:flex}
+.history-empty{text-align:center;padding:48px 24px;color:#aaa;font-size:13px}
+.history-item{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:16px 20px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:16px}
+.history-item:hover{border-color:#5DCAA5;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.history-score{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;flex-shrink:0}
+.history-score.high{background:#E1F5EE;color:#0F6E56}
+.history-score.mid{background:#FFF8E6;color:#BA7517}
+.history-score.low{background:#fef2f2;color:#dc2626}
+.history-meta{flex:1;min-width:0}
+.history-company{font-size:14px;font-weight:500;color:#1a1a1a}
+.history-role{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.history-date{font-size:11px;color:#bbb}
+.status-select{border:0.5px solid #e5e5e5;border-radius:6px;font-size:12px;padding:4px 8px;color:#666;font-family:inherit;background:#fff;cursor:pointer;outline:none}
+.status-select:focus{border-color:#5DCAA5}
+
+/* ── Results view ── */
 .results{display:none;flex-direction:column;gap:16px}
 .results.visible{display:flex}
+.back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;font-size:13px;color:#888;cursor:pointer;font-family:inherit;padding:0;transition:color 0.15s}
+.back-btn:hover{color:#1a1a1a}
+
 .section-label{font-size:11px;font-weight:500;color:#aaa;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
 .score-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .score-badge{display:flex;align-items:baseline;gap:4px}
@@ -54,6 +84,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .flags-row{display:flex;flex-direction:column;gap:6px}
 .red-flag-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#666}
 .red-flag-item i{margin-top:2px;flex-shrink:0;color:#BA7517;font-size:14px}
+
 .tab-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;overflow:hidden}
 .tab-bar{display:flex;border-bottom:0.5px solid #f0f0f0;background:#fafafa}
 .tab{flex:1;padding:13px 16px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-0.5px;font-size:13px;font-family:inherit;color:#888;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
@@ -62,6 +93,7 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 .tab-body{padding:24px}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
+
 .output-flag-banner{background:#FFF8E6;border:0.5px solid #FAC775;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#633806;line-height:1.5}
 .output-flag-banner i{flex-shrink:0;margin-top:1px;color:#BA7517;font-size:14px}
 .panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -85,115 +117,358 @@ textarea:focus{border-color:#5DCAA5;box-shadow:0 0 0 3px #E1F5EE;background:#fff
 
 <div class="page">
 
+  <!-- Top bar -->
   <div class="top-bar">
     <div class="logo"><span class="logo-dot"></span>Job search agent</div>
-  </div>
-
-  <div class="card">
-    <div class="input-label">Job posting</div>
-    <div class="mode-row">
-      <button class="mode-btn active" id="urlBtn" onclick="setMode('url')">
-        <i class="ti ti-link" style="font-size:14px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>URL
+    <div class="top-actions">
+      <button class="ghost-btn" id="historyBtn" onclick="showHistory()">
+        <i class="ti ti-clock-hour-4" style="font-size:14px" aria-hidden="true"></i>History
       </button>
-      <button class="mode-btn" id="textBtn" onclick="setMode('text')">
-        <i class="ti ti-clipboard-text" style="font-size:14px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>Paste text
-      </button>
-    </div>
-    <div class="input-row">
-      <input type="text" id="urlInput" placeholder="https://boards.greenhouse.io/company/jobs/..." />
-      <textarea id="textInput" placeholder="Paste the full job description here..." style="display:none"></textarea>
-      <button class="run-btn" id="runBtn" onclick="runPipeline()">
-        <i class="ti ti-player-play" style="font-size:14px" aria-hidden="true"></i>Run
+      <button class="ghost-btn active" id="newBtn" onclick="showNew()">
+        <i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i>New
       </button>
     </div>
   </div>
 
-  <div class="progress-card" id="progressCard">
-    <div class="progress-label">Running pipeline</div>
-    <div class="agents-row">
-      <span class="agent-pill" id="p1"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Job analyst</span>
-      <span class="agent-pill" id="p2"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>CV advisor</span>
-      <span class="agent-pill" id="p3"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Cover letter</span>
-      <span class="agent-pill" id="p4"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Company intel</span>
-      <span class="agent-pill" id="p5"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Critic</span>
+  <!-- New application input -->
+  <div id="newView">
+    <div class="card">
+      <div class="input-label">Job posting</div>
+      <div class="mode-row">
+        <button class="mode-btn active" id="urlBtn" onclick="setMode('url')">
+          <i class="ti ti-link" style="font-size:14px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>URL
+        </button>
+        <button class="mode-btn" id="textBtn" onclick="setMode('text')">
+          <i class="ti ti-clipboard-text" style="font-size:14px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>Paste text
+        </button>
+      </div>
+      <div class="input-row">
+        <input type="text" id="urlInput" placeholder="https://boards.greenhouse.io/company/jobs/..." />
+        <textarea id="textInput" placeholder="Paste the full job description here..." style="display:none"></textarea>
+        <button class="run-btn" id="runBtn" onclick="runPipeline()">
+          <i class="ti ti-player-play" style="font-size:14px" aria-hidden="true"></i>Run
+        </button>
+      </div>
+    </div>
+
+    <div class="progress-card" id="progressCard">
+      <div class="progress-label">Running pipeline</div>
+      <div class="agents-row">
+        <span class="agent-pill" id="p1"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Job analyst</span>
+        <span class="agent-pill" id="p2"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>CV advisor</span>
+        <span class="agent-pill" id="p3"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Cover letter</span>
+        <span class="agent-pill" id="p4"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Company intel</span>
+        <span class="agent-pill" id="p5"><i class="ti ti-circle" style="font-size:12px" aria-hidden="true"></i>Critic</span>
+      </div>
+    </div>
+
+    <div class="error-card" id="errorCard"></div>
+
+    <div class="results" id="results">
+      <div class="card">
+        <div class="score-row">
+          <div class="score-badge">
+            <span class="score-num" id="scoreNum">—</span>
+            <span class="score-denom">/10</span>
+          </div>
+          <div class="score-meta">
+            <div class="score-company" id="scoreCompany">—</div>
+            <div class="score-role" id="scoreRole">—</div>
+          </div>
+          <span class="status-pill">To Apply</span>
+        </div>
+        <div id="redFlagsWrap" style="display:none">
+          <hr class="divider">
+          <div class="section-label">Job red flags</div>
+          <div class="flags-row" id="redFlags"></div>
+        </div>
+      </div>
+      <div class="tab-card">
+        <div class="tab-bar">
+          <button class="tab active" id="tab-btn-cover" onclick="setTab('cover')">
+            <i class="ti ti-mail" style="font-size:14px" aria-hidden="true"></i>Cover letter
+          </button>
+          <button class="tab" id="tab-btn-notes" onclick="setTab('notes')">
+            <i class="ti ti-list-check" style="font-size:14px" aria-hidden="true"></i>CV notes
+            <span class="notes-badge" id="notesBadge">0/0</span>
+          </button>
+          <button class="tab" id="tab-btn-brief" onclick="setTab('brief')">
+            <i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i>Company brief
+          </button>
+        </div>
+        <div class="tab-body">
+          <div class="tab-panel active" id="tab-cover">
+            <div id="outputFlagBanner" style="display:none" class="output-flag-banner">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              <span id="outputFlagText"></span>
+            </div>
+            <div class="panel-header">
+              <span style="font-size:12px;color:#aaa">Ready to copy</span>
+              <button class="copy-btn" id="copyBtn" onclick="copyCover()">
+                <i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy
+              </button>
+            </div>
+            <div class="cover-text" id="coverText"></div>
+          </div>
+          <div class="tab-panel" id="tab-notes">
+            <div class="panel-header">
+              <span style="font-size:13px;color:#888">Check off as you update your CV</span>
+              <span class="notes-progress" id="notesProgress">0/0 done</span>
+            </div>
+            <ul class="notes-list" id="notesList"></ul>
+          </div>
+          <div class="tab-panel" id="tab-brief">
+            <div class="brief-text" id="briefText"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="error-card" id="errorCard"></div>
+  <!-- History view -->
+  <div class="history-view" id="historyView">
+    <div id="historyList"></div>
+  </div>
 
-  <div class="results" id="results">
-
+  <!-- History detail view (reuses results layout) -->
+  <div class="results" id="historyDetail" style="display:none;flex-direction:column;gap:16px">
+    <button class="back-btn" onclick="backToHistory()">
+      <i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i>Back to history
+    </button>
     <div class="card">
       <div class="score-row">
         <div class="score-badge">
-          <span class="score-num" id="scoreNum">—</span>
+          <span class="score-num" id="detailScoreNum">—</span>
           <span class="score-denom">/10</span>
         </div>
         <div class="score-meta">
-          <div class="score-company" id="scoreCompany">—</div>
-          <div class="score-role" id="scoreRole">—</div>
+          <div class="score-company" id="detailCompany">—</div>
+          <div class="score-role" id="detailRole">—</div>
         </div>
-        <span class="status-pill">To Apply</span>
+        <select class="status-select" id="detailStatus" onchange="updateDetailStatus()">
+          <option>To Apply</option>
+          <option>Applied</option>
+          <option>Interviewing</option>
+          <option>Rejected</option>
+          <option>Offer</option>
+        </select>
       </div>
-      <div id="redFlagsWrap" style="display:none">
+      <div id="detailRedFlagsWrap" style="display:none">
         <hr class="divider">
         <div class="section-label">Job red flags</div>
-        <div class="flags-row" id="redFlags"></div>
+        <div class="flags-row" id="detailRedFlags"></div>
       </div>
     </div>
-
     <div class="tab-card">
       <div class="tab-bar">
-        <button class="tab active" id="tab-btn-cover" onclick="setTab('cover')">
+        <button class="tab active" id="dtab-btn-cover" onclick="setDetailTab('cover')">
           <i class="ti ti-mail" style="font-size:14px" aria-hidden="true"></i>Cover letter
         </button>
-        <button class="tab" id="tab-btn-notes" onclick="setTab('notes')">
+        <button class="tab" id="dtab-btn-notes" onclick="setDetailTab('notes')">
           <i class="ti ti-list-check" style="font-size:14px" aria-hidden="true"></i>CV notes
-          <span class="notes-badge" id="notesBadge">0/0</span>
+          <span class="notes-badge" id="detailNotesBadge">0/0</span>
         </button>
-        <button class="tab" id="tab-btn-brief" onclick="setTab('brief')">
+        <button class="tab" id="dtab-btn-brief" onclick="setDetailTab('brief')">
           <i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i>Company brief
         </button>
       </div>
-
       <div class="tab-body">
-
-        <div class="tab-panel active" id="tab-cover">
-          <div id="outputFlagBanner" style="display:none" class="output-flag-banner">
+        <div class="tab-panel active" id="dtab-cover">
+          <div id="detailFlagBanner" style="display:none" class="output-flag-banner">
             <i class="ti ti-info-circle" aria-hidden="true"></i>
-            <span id="outputFlagText"></span>
+            <span id="detailFlagText"></span>
           </div>
           <div class="panel-header">
             <span style="font-size:12px;color:#aaa">Ready to copy</span>
-            <button class="copy-btn" id="copyBtn" onclick="copyCover()">
+            <button class="copy-btn" id="detailCopyBtn" onclick="copyDetailCover()">
               <i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy
             </button>
           </div>
-          <div class="cover-text" id="coverText"></div>
+          <div class="cover-text" id="detailCoverText"></div>
         </div>
-
-        <div class="tab-panel" id="tab-notes">
+        <div class="tab-panel" id="dtab-notes">
           <div class="panel-header">
             <span style="font-size:13px;color:#888">Check off as you update your CV</span>
-            <span class="notes-progress" id="notesProgress">0/0 done</span>
+            <span class="notes-progress" id="detailNotesProgress">0/0 done</span>
           </div>
-          <ul class="notes-list" id="notesList"></ul>
+          <ul class="notes-list" id="detailNotesList"></ul>
         </div>
-
-        <div class="tab-panel" id="tab-brief">
-          <div class="brief-text" id="briefText"></div>
+        <div class="tab-panel" id="dtab-brief">
+          <div class="brief-text" id="detailBriefText"></div>
         </div>
-
       </div>
     </div>
-
   </div>
+
 </div>
 
 <script>
 let mode = 'url'
 let checked = new Set()
+let detailChecked = new Set()
+let currentDetailId = null
 
+// ── View switching ──
+function showNew() {
+  document.getElementById('newView').style.display = 'block'
+  document.getElementById('historyView').classList.remove('visible')
+  document.getElementById('historyDetail').style.display = 'none'
+  document.getElementById('newBtn').classList.add('active')
+  document.getElementById('historyBtn').classList.remove('active')
+}
+
+function showHistory() {
+  document.getElementById('newView').style.display = 'none'
+  document.getElementById('historyDetail').style.display = 'none'
+  document.getElementById('historyView').classList.add('visible')
+  document.getElementById('historyBtn').classList.add('active')
+  document.getElementById('newBtn').classList.remove('active')
+  loadHistory()
+}
+
+function backToHistory() {
+  document.getElementById('historyDetail').style.display = 'none'
+  document.getElementById('historyView').classList.add('visible')
+}
+
+// ── History list ──
+async function loadHistory() {
+  const container = document.getElementById('historyList')
+  container.innerHTML = '<div class="history-empty">Loading...</div>'
+  try {
+    const res = await fetch('/applications')
+    const apps = await res.json()
+    if (!apps.length) {
+      container.innerHTML = '<div class="history-empty">No applications yet. Run your first one.</div>'
+      return
+    }
+    container.innerHTML = apps.map(a => {
+      const scoreClass = a.fit_score >= 7 ? 'high' : a.fit_score >= 4 ? 'mid' : 'low'
+      const date = new Date(a.created_at).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })
+      return `
+        <div class="history-item" onclick="loadDetail(${a.id})">
+          <div class="history-score ${scoreClass}">${a.fit_score}</div>
+          <div class="history-meta">
+            <div class="history-company">${a.company}</div>
+            <div class="history-role">${a.role}</div>
+          </div>
+          <div class="history-right">
+            <span class="history-date">${date}</span>
+            <select class="status-select" data-id="${a.id}" onclick="event.stopPropagation()" onchange="updateStatus(event, ${a.id})">
+              ${['To Apply','Applied','Interviewing','Rejected','Offer'].map(s =>
+                `<option ${s === a.status ? 'selected' : ''}>${s}</option>`
+              ).join('')}
+            </select>
+          </div>
+        </div>`
+    }).join('')
+  } catch(e) {
+    container.innerHTML = '<div class="history-empty">Could not load history.</div>'
+  }
+}
+
+async function updateStatus(event, id) {
+  const status = event.target.value
+  await fetch('/applications/' + id + '/status', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  })
+}
+
+// ── History detail ──
+async function loadDetail(id) {
+  currentDetailId = id
+  detailChecked.clear()
+
+  const res = await fetch('/applications/' + id)
+  const data = await res.json()
+
+  document.getElementById('historyView').classList.remove('visible')
+  const detail = document.getElementById('historyDetail')
+  detail.style.display = 'flex'
+
+  const s = data.fit_score
+  const sEl = document.getElementById('detailScoreNum')
+  sEl.textContent = s
+  sEl.className = 'score-num ' + (s >= 7 ? 'high' : s >= 4 ? 'mid' : 'low')
+  document.getElementById('detailCompany').textContent = data.company
+  document.getElementById('detailRole').textContent = data.role
+  document.getElementById('detailStatus').value = data.status
+
+  if (data.red_flags && data.red_flags.length) {
+    document.getElementById('detailRedFlagsWrap').style.display = 'block'
+    document.getElementById('detailRedFlags').innerHTML = data.red_flags
+      .map(f => '<div class="red-flag-item"><i class="ti ti-alert-triangle" aria-hidden="true"></i>' + f + '</div>').join('')
+  } else {
+    document.getElementById('detailRedFlagsWrap').style.display = 'none'
+  }
+
+  if (data.quality_flags && data.quality_flags.length) {
+    document.getElementById('detailFlagBanner').style.display = 'flex'
+    document.getElementById('detailFlagText').textContent = data.quality_flags.join(' · ')
+  } else {
+    document.getElementById('detailFlagBanner').style.display = 'none'
+  }
+
+  document.getElementById('detailCoverText').textContent = data.cover_letter
+
+  const notesList = document.getElementById('detailNotesList')
+  notesList.innerHTML = data.cv_notes.map((n, i) =>
+    '<li class="note-item" data-di="' + i + '" onclick="toggleDetailNote(' + i + ')">' +
+    '<div class="note-cb"></div><div class="note-text">' + n + '</div></li>'
+  ).join('')
+  const total = data.cv_notes.length
+  document.getElementById('detailNotesProgress').textContent = '0/' + total + ' done'
+  document.getElementById('detailNotesBadge').textContent = '0/' + total
+
+  document.getElementById('detailBriefText').textContent = data.company_brief
+  setDetailTab('cover')
+}
+
+async function updateDetailStatus() {
+  const status = document.getElementById('detailStatus').value
+  await fetch('/applications/' + currentDetailId + '/status', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  })
+}
+
+function toggleDetailNote(i) {
+  const item = document.querySelector('[data-di="' + i + '"]')
+  const cb = item.querySelector('.note-cb')
+  if (detailChecked.has(i)) {
+    detailChecked.delete(i); item.classList.remove('checked'); cb.innerHTML = ''
+  } else {
+    detailChecked.add(i); item.classList.add('checked')
+    cb.innerHTML = '<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>'
+  }
+  const total = document.querySelectorAll('[data-di]').length
+  document.getElementById('detailNotesProgress').textContent = detailChecked.size + '/' + total + ' done'
+  document.getElementById('detailNotesBadge').textContent = detailChecked.size + '/' + total
+}
+
+function copyDetailCover() {
+  navigator.clipboard.writeText(document.getElementById('detailCoverText').textContent).then(() => {
+    const btn = document.getElementById('detailCopyBtn')
+    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px" aria-hidden="true"></i>Copied'
+    btn.classList.add('copied')
+    setTimeout(() => {
+      btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy'
+      btn.classList.remove('copied')
+    }, 2000)
+  })
+}
+
+function setDetailTab(t) {
+  ;['cover', 'notes', 'brief'].forEach(name => {
+    document.getElementById('dtab-' + name).classList.toggle('active', name === t)
+    document.getElementById('dtab-btn-' + name).classList.toggle('active', name === t)
+  })
+}
+
+// ── New pipeline run ──
 function setMode(m) {
   mode = m
   document.getElementById('urlInput').style.display = m === 'url' ? 'block' : 'none'
@@ -221,7 +496,7 @@ function setAgent(id, state) {
 function copyCover() {
   navigator.clipboard.writeText(document.getElementById('coverText').textContent).then(() => {
     const btn = document.getElementById('copyBtn')
-    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px" aria-hidden="true"></i>Copied'
+    btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copied'
     btn.classList.add('copied')
     setTimeout(() => {
       btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Copy'
@@ -239,7 +514,7 @@ function toggleNote(i) {
     checked.add(i); item.classList.add('checked')
     cb.innerHTML = '<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>'
   }
-  const total = document.querySelectorAll('.note-item').length
+  const total = document.querySelectorAll('[data-i]').length
   document.getElementById('notesProgress').textContent = checked.size + '/' + total + ' done'
   document.getElementById('notesBadge').textContent = checked.size + '/' + total
 }
@@ -274,7 +549,6 @@ function renderResults(data) {
   const total = data.cv_notes.length
   document.getElementById('notesProgress').textContent = '0/' + total + ' done'
   document.getElementById('notesBadge').textContent = '0/' + total
-
   document.getElementById('briefText').textContent = data.company_brief
   document.getElementById('results').classList.add('visible')
   setTab('cover')
@@ -301,25 +575,23 @@ async function runPipeline() {
   const btn = document.getElementById('runBtn')
   btn.disabled = true
   btn.innerHTML = '<i class="ti ti-loader" style="font-size:14px;animation:spin 1s linear infinite" aria-hidden="true"></i>Running'
-
   document.getElementById('progressCard').classList.add('visible')
   setAgent('p1', 'running')
-  setTimeout(function() { setAgent('p1', 'done'); setAgent('p2', 'running'); setAgent('p3', 'running'); setAgent('p4', 'running') }, 4000)
-  setTimeout(function() { setAgent('p2', 'done'); setAgent('p3', 'done'); setAgent('p4', 'done'); setAgent('p5', 'running') }, 14000)
+  setTimeout(function() { setAgent('p1','done'); setAgent('p2','running'); setAgent('p3','running'); setAgent('p4','running') }, 4000)
+  setTimeout(function() { setAgent('p2','done'); setAgent('p3','done'); setAgent('p4','done'); setAgent('p5','running') }, 14000)
 
   try {
-    const body = mode === 'url' ? { url: input } : { raw_text: input }
     const res = await fetch('/run', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(mode === 'url' ? { url: input } : { raw_text: input })
     })
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || 'Pipeline failed')
     setAgent('p5', 'done')
     setTimeout(function() { document.getElementById('progressCard').classList.remove('visible') }, 800)
     renderResults(data)
-  } catch (e) {
+  } catch(e) {
     const err = document.getElementById('errorCard')
     err.textContent = 'Error: ' + e.message
     err.classList.add('visible')
