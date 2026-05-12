@@ -33,7 +33,8 @@ def init_db():
             red_flags   TEXT NOT NULL DEFAULT '[]',
             required_skills TEXT NOT NULL DEFAULT '[]',
             raw_text    TEXT,
-            created_at  TEXT NOT NULL
+            created_at  TEXT NOT NULL,
+            cv_chunks   TEXT NOT NULL DEFAULT '[]'
         )
     """)
     conn.commit()
@@ -51,7 +52,7 @@ def save_application(package_data: dict) -> int:
             company, role, location, fit_score, status,
             cover_letter, cv_notes, company_brief,
             quality_flags, red_flags, required_skills,
-            raw_text, created_at
+            raw_text, created_at, cv_chunks
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         package_data["company_name"],
@@ -67,6 +68,7 @@ def save_application(package_data: dict) -> int:
         json.dumps(package_data.get("required_skills", [])),
         package_data.get("raw_text", ""),
         datetime.now(timezone.utc).isoformat(),
+        json.dumps(package_data.get("cv_chunks", []))
     ))
     conn.commit()
     row_id = cursor.lastrowid
@@ -106,6 +108,7 @@ def get_application(app_id: int) -> dict | None:
     data["quality_flags"] = json.loads(data["quality_flags"])
     data["red_flags"] = json.loads(data["red_flags"])
     data["required_skills"] = json.loads(data["required_skills"])
+    data["cv_chunks"] = json.loads(data["cv_chunks"])
     return data
 
 

@@ -53,7 +53,7 @@ async def test_pipeline_returns_application_package(sample_job, sample_package):
 
         mock_analyst.return_value = sample_job
         mock_cv.return_value = ["Move Zafin to top"]
-        mock_letter.return_value = "Cover letter text"
+        mock_letter.return_value = ("Cover letter text", ["cv chunk 1"])
         mock_intel.return_value = "Company brief text"
         mock_critic.return_value = sample_package
         mock_save.return_value = 1
@@ -79,7 +79,7 @@ async def test_pipeline_agents_called_with_correct_inputs(sample_job, sample_pac
 
         mock_analyst.return_value = sample_job
         mock_cv.return_value = ["note"]
-        mock_letter.return_value = "letter"
+        mock_letter.return_value = ("Cover letter text", ["cv chunk 1"])
         mock_intel.return_value = "brief"
         mock_critic.return_value = sample_package
 
@@ -92,4 +92,4 @@ async def test_pipeline_agents_called_with_correct_inputs(sample_job, sample_pac
         mock_cv.assert_called_once_with(sample_job)
         mock_letter.assert_called_once_with(sample_job)
         mock_intel.assert_called_once_with(sample_job)
-        mock_critic.assert_called_once_with(sample_job, ["note"], "letter", "brief")
+        mock_critic.assert_called_once_with(sample_job, ["note"], "Cover letter text", "brief")

@@ -24,27 +24,28 @@ async def run_pipeline(
 
     job = await run_job_analyst(url=url, raw_text=raw_text)
 
-    cv_notes, cover_letter, company_brief = await asyncio.gather(
-        run_cv_advisor(job),
-        run_cover_letter(job),
-        run_company_intel(job),
-    )
+    cv_notes, (cover_letter, cv_chunks), company_brief = await asyncio.gather(
+    run_cv_advisor(job),
+    run_cover_letter(job),
+    run_company_intel(job),
+)
 
     package = await run_critic(job, cv_notes, cover_letter, company_brief)
 
     save_application({
-        "company_name": package.job.company_name,
-        "role_title": package.job.role_title,
-        "location": package.job.location,
-        "fit_score": package.fit_score,
-        "cover_letter": package.cover_letter,
-        "cv_notes": package.cv_notes,
-        "company_brief": package.company_brief,
-        "quality_flags": package.quality_flags,
-        "red_flags": package.job.red_flags,
-        "required_skills": package.job.required_skills,
-        "raw_text": package.job.raw_text,
-        "status": package.status,
-    })
+    "company_name": package.job.company_name,
+    "role_title": package.job.role_title,
+    "location": package.job.location,
+    "fit_score": package.fit_score,
+    "cover_letter": package.cover_letter,
+    "cv_notes": package.cv_notes,
+    "company_brief": package.company_brief,
+    "quality_flags": package.quality_flags,
+    "red_flags": package.job.red_flags,
+    "required_skills": package.job.required_skills,
+    "raw_text": package.job.raw_text,
+    "cv_chunks": cv_chunks,
+    "status": package.status,
+})
 
     return package
