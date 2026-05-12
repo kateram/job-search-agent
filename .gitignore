@@ -16,6 +16,7 @@ data/cv/
 data/cover_letters/
 *.md
 credentials.json
+data/applications.db
 
 # OS
 .DS_Store
