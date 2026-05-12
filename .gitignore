@@ -14,7 +14,6 @@ venv/
 # Data 
 data/cv/
 data/cover_letters/
-*.md
 credentials.json
 data/applications.db
 
